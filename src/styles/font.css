@@ -1,0 +1,77 @@
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/RobotoBold.ttf");
+    font-family: "Roboto";
+    font-weight: 700;
+}
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/RobotoRomanRegular.ttf");
+    font-family: "Roboto";
+    font-weight: 400;
+}
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/RobotoMedium.ttf");
+    font-family: "Roboto";
+    font-weight: 500;
+}
+@font-face {  
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/SpaceGroteskMedium.ttf");
+    font-family: "Space Grotesk";
+    font-weight: 500;
+}
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/SpaceGroteskRegular.ttf");
+    font-family: "Space Grotesk";
+    font-weight: 400;
+}
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/AbhayaLibreRegular.ttf");
+    font-family: "Abhaya Libre";
+    font-weight: 400;
+}  
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/AbhayaLibreBold.ttf");
+    font-family: "Abhaya Libre";
+    font-weight: 700;
+}  
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/MontserratRegular.ttf");
+    font-family: "Montserrat";
+    font-weight: 400;
+}  
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/MontserratExtralight.ttf");
+    font-family: "Montserrat";
+    font-weight: 200;
+}
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/MontserratSemiBold.ttf");
+    font-family: "Montserrat";
+    font-weight: 600;
+}
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("/public/fonts/InterRegular.ttf");
+    font-family: "Inter";
+    font-weight: 400;
+}
