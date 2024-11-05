@@ -9,7 +9,7 @@ const dropDownOptions = [
   { label: "Option3", value: "option3" }
 ];
 
-export default function GenerateWorkoutPlanPage() {
+export default function GenerateMealPlanPage() {
   const [chipOptions, setChipOptions] = React.useState(() => [
     { value: 1, label: "Chest" },
     { value: 2, label: "Back" },

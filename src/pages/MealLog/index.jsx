@@ -4,7 +4,7 @@ import ExercisetrackerRowEight from "./ExercisetrackerRowEight";
 import ExercisetrackerStackview from "./ExercisetrackerStackview";
 import React from "react";
 
-export default function ExerciseTrackerPage() {
+export default function MealLogPage() {
   return (
     <>
       <Helmet>

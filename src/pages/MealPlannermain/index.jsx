@@ -4,7 +4,7 @@ import FunFactText from "../..//components/FunFactText";
 import WorkoutPlanGenerator from "../..//components/WorkoutPlanGenerator";
 import React from "react";
 
-export default function WorkoutPlannermainPage() {
+export default function MealPlannermainPage() {
     return (
         <>
             <Helmet>

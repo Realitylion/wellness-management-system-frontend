@@ -51,18 +51,18 @@ const Home = () => {
             </Link>
         </li>
         <li style={{ marginBottom: "10px" }}>
-          <Link to="/workoutplannermain" style={{ color: "#87CEFA", textDecoration: "none" }}>
-            WorkoutPlannermain
+          <Link to="/mealplanner" style={{ color: "#87CEFA", textDecoration: "none" }}>
+            MealPlannermain
           </Link>
         </li>
         <li style={{ marginBottom: "10px" }}>
-          <Link to="/generateworkoutplan" style={{ color: "#87CEFA", textDecoration: "none" }}>
-            GenerateWorkoutPlan
+          <Link to="/generatemealplan" style={{ color: "#87CEFA", textDecoration: "none" }}>
+            GenerateMealPlan
           </Link>
         </li>
         <li style={{ marginBottom: "10px" }}>
-            <Link to="/exercisetracker" style={{ color: "#87CEFA", textDecoration: "none" }}>
-                ExerciseTracker
+            <Link to="/meallog" style={{ color: "#87CEFA", textDecoration: "none" }}>
+                Meal Log
             </Link>
         </li>
         <li style={{ marginBottom: "10px" }}>
