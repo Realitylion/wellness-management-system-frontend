@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import { Img, Heading, Text } from "../..//components";
+import { Img, Heading } from "../..//components";
 import FunFactText from "../..//components/FunFactText";
 import MealPlanGenerator from "../..//components/MealPlanGenerator";
 import React from "react";

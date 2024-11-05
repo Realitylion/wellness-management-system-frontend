@@ -56,6 +56,7 @@ const Input = React.forwardRef(
                 name={name}
                 placeholder={placeholder}
                 onChange={onChange}
+                className="w-full bg-transparent focus:outline-none border-none"
                 {...restProps}
             />
             {!!suffix && suffix}
