@@ -34,7 +34,7 @@ function ChipView(props) {
       }
       return options.filter((option) => values.includes(option.value)).map((option) => option.value);
     });
-  }, [options]);
+  }, [options, setValues]);
 
   return (
     <div {...restProps}>
