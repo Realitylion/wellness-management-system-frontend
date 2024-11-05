@@ -14,7 +14,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ExerciseTracker from "./pages/ExerciseTracker";
 import EmailVerificationLink from "./pages/EmailVerificationLink";
 import ChangePassword from "./pages/ChangePassword";
-import PageNotFound from "./pages/PageNotFound";
 import CompleteProfile from "./pages/CompleteProfile";
 import Settings from "./pages/Settings";
 
@@ -22,65 +21,62 @@ const ProjectRoutes = () => {
     let element = useRoutes([
         { path: "/", element: <Home /> },
         { path: "*", element: <NotFound /> },
-        {
-            path: "login",
-            element: <Login />,
-        },
-        {
-            path: "home1",
-            element: <Home1 />,
-        },
-        {
-            path: "workoutplannermain",
-            element: <WorkoutPlannermain />,
-        },
-        {
-            path: "wellnesssessionmain",
-            element: <WellnessSessionMain />,
-        },
+        
         {
             path: "landing",
             element: <Landing />,
         },
         {
-            path: "generateworkoutplan",
-            element: <GenerateWorkoutPlan />,
+            path: "login",
+            element: <Login />,
         },
         {
             path: "signup",
             element: <Signup />,
         },
         {
-            path: "wellnesssessionsession",
-            element: <WellnessSessionSession />,
-        },
-        {
             path: "forgotpassword",
             element: <ForgotPassword />,
-        },
-        {
-            path: "exercisetracker",
-            element: <ExerciseTracker />,
         },
         {
             path: "emailverificationlink",
             element: <EmailVerificationLink />,
         },
         {
-            path: "changepassword",
-            element: <ChangePassword />,
-        },
-        {
-            path: "pagenotfound",
-            element: <PageNotFound />,
-        },
-        {
             path: "completeprofile",
             element: <CompleteProfile />,
         },
         {
+            path: "home1",
+            element: <Home1 />,
+        },
+        {
             path: "settings",
             element: <Settings />,
+        },
+        {
+            path: "changepassword",
+            element: <ChangePassword />,
+        },
+        {
+            path: "workoutplannermain",
+            element: <WorkoutPlannermain />,
+        },
+        {
+            path: "generateworkoutplan",
+            element: <GenerateWorkoutPlan />,
+        },
+        {
+            path: "wellnesssessionsession",
+            element: <WellnessSessionSession />,
+        },
+        {
+            path: "exercisetracker",
+            element: <ExerciseTracker />,
+        },
+        {
+            path: "wellnesssessionmain",
+            element: <WellnessSessionMain />,
         },
     ]);
     return element;
