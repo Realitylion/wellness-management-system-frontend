@@ -1,4 +1,4 @@
-import { Button, Heading, Img } from "../../components";
+import { Button, Heading, Img } from "../components";
 import React from "react";
 
 export default function PagenotFoundPagecontent() {
