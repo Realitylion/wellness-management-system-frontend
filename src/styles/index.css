@@ -44,7 +44,7 @@ table {
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: #6b6b6b;
+    background: #cecece;
     border-radius: 10px;
 }
 .ps-menu-icon {
