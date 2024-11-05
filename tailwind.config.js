@@ -1,12 +1,13 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./src/**/*.{js,ts,jsx,tsx,html,mdx}", "./src/**/*.{js,ts,jsx,tsx,html,mdx}"],
-    darkMode: "class",
-    theme: {
-      screens: {
-        lg: { max: "1440px" },
-        md: { max: "1050px" },
-        sm: { max: "550px" },
-      },
+  mode: "jit",
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  darkMode: "class",
+  theme: {
+    screens: { lg: { max: "1440px" }, md: { max: "1050px" }, sm: { max: "550px" }},
+    extend: {
       colors: {
         black: "var(--black)",
         color_black: {
@@ -27,10 +28,7 @@ module.exports = {
           60: "var(--coolgray_60)",
           90: "var(--coolgray_90)",
         },
-        default: {
-          success: "var(--default_success)",
-          white: "var(--default_white)",
-        },
+        default: { success: "var(--default_success)", white: "var(--default_white)"},
         gray: {
           50: "var(--gray_50)",
           100: "var(--gray_100)",
@@ -43,43 +41,27 @@ module.exports = {
         },
         grey_background: "var(--grey_background)",
         grey_text: "var(--grey_text)",
-        indigo: {
-          100: "var(--indigo_100)",
-        },
-        light_blue: {
-          a700: "var(--light_blue_a700)",
-        },
-        primary: {
-          60: "var(--primary_60)",
-          90: "var(--primary_90)",
-        },
+        indigo: { 100: "var(--indigo_100)"},
+        light_blue: {a700: "var(--light_blue_a700)"},
+        primary: {60: "var(--primary_60)", 90: "var(--primary_90)"},
         purple_light: "var(--purple_light)",
-        red: {
-          700: "var(--red_700)",
-        },
-        white: {
-          a700_99: "var(--white_a700_99)",
-        },
+        red: { 700: "var(--red_700)"},
+        white: { a700_99: "var(--white_a700_99)"},
         yellow: "var(--yellow)",
         black_600: "var(--black_600)",
         gray_shadow: "var(--gray_shadow)",
       },
-      boxShadow: {
-        xs: "0 4px 4px 0 #0000003f",
-        sm: "0 13px 5px #00000029",
-      },
+      boxShadow: { xs: "0 4px 4px 0 #0000003f", sm: "0 13px 5px #00000029"},
       fontFamily: {
-        fontFamily: {
-            inter: "Inter",
-            spacegrotesk: "Space Grotesk",
-            roboto: "Roboto",
-            abhayalibre: "Abhaya Libre",
-            montserrat: "Montserrat",
-        },
-        backgroundImage: {
-            gradient: "linear-gradient(180deg, #697077, #c3d0dd)",
-        },
-        plugins: [require("@tailwindcss/forms")],
+        inter: "Inter",
+        spacegrotesk: "Space Grotesk",
+        roboto: "Roboto",
+        abhayalibre: "Abhaya Libre",
+        montserrat: "Montserrat",
       },
+      backgroundImage: { gradient: "linear-gradient(180deg, #697077, #c3d0dd)"},
     },
-};
+  },
+  plugins: [require("@tailwindcss/forms")],
+}
+
