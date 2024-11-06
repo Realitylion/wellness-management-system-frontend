@@ -36,10 +36,10 @@ export default function HomePage() {
         {/* Hero Section */}
         <div className="flex items-center justify-between my-10 max-w-5xl mx-auto px-4 lg:px-0">
           <div className="w-full lg:w-1/2 text-left">
-            <Heading as="h1" className="text-4xl lg:text-5xl font-bold text-coolgray-900 mb-2">
+            <Heading as="h1" size="headinglg" className="font-bold text-coolgray-900 mb-2">
               Unlock Your Full Potential with Tailored Wellness Solutions
             </Heading>
-            <Heading as="h2" className="text-xl lg:text-2xl font-semibold text-coolgray-700 mb-3">
+            <Heading as="h2" size="headingmd" className="font-semibold text-coolgray-700 mb-3">
               Achieve Your Wellness Goals with Personalized Plans
             </Heading>
             <p className="text-base lg:text-lg text-gray-500 mb-6">
@@ -62,7 +62,7 @@ export default function HomePage() {
 
         {/* Services Section */}
         <div className="text-center py-10">
-          <Heading as="h2" className="text-3xl lg:text-4xl font-bold text-coolgray-90 mb-2">Our Services</Heading>
+          <Heading as="h1" size="headinglg" className="font-bold text-coolgray-90 mb-2">Our Services</Heading>
           <Text className="text-lg font-semibold text-coolgray-70 mb-4">Why choose Us?</Text>
           <Text className="text-base text-coolgray-60 mb-8 max-w-2xl mx-auto">
             Our comprehensive wellness approach ensures that every aspect of your health is covered
@@ -101,17 +101,17 @@ export default function HomePage() {
 
         {/* Impact Section */}
         <div className="bg-white py-10 text-center">
-          <Heading as="h2" className="text-3xl lg:text-4xl font-bold mb-3">Our Impact</Heading>
+          <Heading as="h2" size="headinglg" className="font-bold mb-3">Our Impact</Heading>
           <Text className="text-lg text-coolgray-60 mb-8">
             "We’re proud to have empowered countless individuals on their wellness journey."
           </Text>
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 max-w-6xl mx-auto">
+          <div className="flex flex-row items-center justify-center gap-8 max-w-6xl mx-auto">
             {/* Chart Image */}
             <div className="w-full lg:w-1/2 flex justify-center">
               <Img src="images/img_graph_part_graph_style.png" alt="Impact Chart" className="w-full max-w-md h-auto rounded-lg" />
             </div>
             {/* Metrics */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full lg:w-1/2">
+            <div className="grid grid-cols-2 gap-6 w-full lg:w-1/2">
               <div className="border border-coolgray-20 rounded-lg p-4 text-left">
                 <Heading as="h3" className="text-lg font-semibold text-coolgray-90">100+</Heading>
                 <Text className="text-sm text-coolgray-60">Personalized Wellness Plans Created</Text>

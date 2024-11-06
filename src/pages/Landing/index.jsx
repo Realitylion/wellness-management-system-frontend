@@ -19,7 +19,7 @@ export default function LandingPage() {
         {/* Hero Section */}
         <div className="flex items-center justify-between my-10 max-w-5xl mx-auto px-4 lg:px-0">
           <div className="w-full lg:w-1/2 text-left">
-            <Heading as="h1" className="text-4xl lg:text-4xl font-bold text-coolgray-900 mb-2">
+            <Heading as="h1" size="headingmd" className="font-bold text-coolgray-900 mb-2">
             Achieve Your Wellness Goals with Personalized Plans
             </Heading>
             
@@ -43,7 +43,7 @@ export default function LandingPage() {
 
 {/* Services Section */}
 <div className="text-center py-10 bg-default-white">
-  <Heading as="h1" className="text-4xl lg:text-4xl font-bold text-coolgray-900 mb-4">
+  <Heading as="h1" size="headingmd" className="font-bold text-coolgray-900 mb-4">
     Explore Our Services
   </Heading>
   <Text className="text-gray-900 mb-6 max-w-3xl mx-auto">
@@ -52,25 +52,25 @@ export default function LandingPage() {
   <div className="flex justify-center gap-6 mt-8 max-w-5xl mx-auto flex-wrap">
     <Button
       variant="outline"
-      className="px-6 py-2 border border-black text-black font-medium rounded-lg"
+      className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg"
     >
       Personalized Fitness Plans
     </Button>
     <Button
       variant="outline"
-      className="px-6 py-2 border border-black text-black font-medium rounded-lg"
+      className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg"
     >
       Mental Wellness Programs
     </Button>
     <Button
       variant="outline"
-      className="px-6 py-2 border border-black text-black font-medium rounded-lg"
+      className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg"
     >
       Nutritional Guidance
     </Button>
     <Button
       variant="outline"
-      className="px-6 py-2 border border-black text-black font-medium rounded-lg"
+      className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg"
     >
       Health Monitoring
     </Button>
@@ -80,7 +80,7 @@ export default function LandingPage() {
 {/* Impact Section */}
 <div className="text-center py-10 bg-default-white max-w-5xl mx-auto">
   <div className="text-left px-6">
-    <Heading as="h1" className="text-4xl lg:text-4xl font-bold text-coolgray-900 mb-4">
+    <Heading as="h1" size="headingmd" className="font-bold text-coolgray-900 mb-4">
       Empowering you to achieve Holistic Well Being
     </Heading>
     <div className="flex gap-4 mb-8">
@@ -100,19 +100,19 @@ export default function LandingPage() {
     {/* Metrics */}
     <div className="grid grid-cols-2 gap-4 w-full lg:w-1/2">
       <div className="border border-coolgray-20 rounded-lg p-4">
-        <Heading as="h3" className="text-lg font-semibold text-coolgray-90">100+</Heading>
+        <Heading as="h3" size="headingmd" className="font-semibold text-coolgray-90">100+</Heading>
         <Text className="text-sm text-coolgray-60">Personalized Wellness Plans Created</Text>
       </div>
       <div className="border border-coolgray-20 rounded-lg p-4">
-        <Heading as="h3" className="text-lg font-semibold text-coolgray-90">500+</Heading>
+        <Heading as="h3" size="headingmd" className="font-semibold text-coolgray-90">500+</Heading>
         <Text className="text-sm text-coolgray-60">Successful Fitness Transformations</Text>
       </div>
       <div className="border border-coolgray-20 rounded-lg p-4">
-        <Heading as="h3" className="text-lg font-semibold text-coolgray-90">1k+</Heading>
+        <Heading as="h3" size="headingmd" className="font-semibold text-coolgray-90">1k+</Heading>
         <Text className="text-sm text-coolgray-60">Community Members Engaged</Text>
       </div>
       <div className="border border-coolgray-20 rounded-lg p-4">
-        <Heading as="h3" className="text-lg font-semibold text-coolgray-90">5k+</Heading>
+        <Heading as="h3" size="headingmd" className="font-semibold text-coolgray-90">5k+</Heading>
         <Text className="text-sm text-coolgray-60">Hours of Mindfulness and Meditation Delivered</Text>
       </div>
     </div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
   <div className="flex gap-4">
     <Button
       variant="outline"
-      className="text-black border-black px-6 py-2 font-medium rounded"
+      className="text-black border-primary-60 text-primary-60 px-6 py-2 font-medium rounded"
     >
       Learn More
     </Button>
