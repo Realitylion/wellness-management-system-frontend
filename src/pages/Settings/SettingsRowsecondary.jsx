@@ -10,7 +10,7 @@ export default function SettingsRowSecondary() {
           as="h1"
           className="text-[42px] font-bold text-coolgray-90 md:text-[38px] sm:text-[32px]"
         >
-          Settings
+          Trenify
         </Heading>
       </div>
     </div>
