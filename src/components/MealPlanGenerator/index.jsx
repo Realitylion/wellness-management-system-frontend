@@ -1,9 +1,9 @@
 import { Button, Text, Heading } from "./..";
 import React from "react";
 
-export default function WorkoutPlanGenerator({
-  titleText = "Generate Workout Plan",
-  descriptionText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+export default function MealPlanGenerator({
+  titleText = "Generate Meal Plan",
+  descriptionText = "Get a personalized, AI-generated meal plan based on your preferences and goals.",
   buttonText = "Get Started",
   ...props
 }) {
