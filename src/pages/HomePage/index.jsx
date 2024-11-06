@@ -1,12 +1,18 @@
 import { Helmet } from "react-helmet";
 import { Button, Heading, Img, Text } from "../../components"; 
 import Footer from "../../components/Footer";
-import WellnessJourneyCallToAction from "../../components/WellnessJourneyCallToAction";
-import WellnessPromotion from "../../components/WellnessPromotion";
+import { useNavigate } from "react-router-dom";
 
 import React from "react";
 
 export default function HomePage() {
+  const navigate = useNavigate();
+
+  const scrollToServices= () => {
+    const element = document.getElementById("services");
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <>
       <Helmet>
@@ -47,10 +53,10 @@ export default function HomePage() {
               and nutrition strategies tailored just for you.
             </p>
             <div className="flex gap-4">
-              <Button className="bg-primary-60 text-white px-6 py-2 rounded">
+              <Button onClick={() => {navigate("/mealplanner")}} className="bg-primary-60 text-white px-6 py-2 rounded">
                 Start Now
               </Button>
-              <Button variant="outline" className="border-primary-60 text-primary-60 px-6 py-2 rounded">
+              <Button onClick={scrollToServices} variant="outline" className="border-primary-60 text-primary-60 px-6 py-2 rounded">
                 Explore More
               </Button>
             </div>
@@ -60,43 +66,50 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Services Section */}
-        <div className="text-center py-10">
-          <Heading as="h1" size="headinglg" className="font-bold text-coolgray-90 mb-2">Our Services</Heading>
-          <Text className="text-lg font-semibold text-coolgray-70 mb-4">Why choose Us?</Text>
-          <Text className="text-base text-coolgray-60 mb-8 max-w-2xl mx-auto">
-            Our comprehensive wellness approach ensures that every aspect of your health is covered
-          </Text>
-          <div className="flex flex-wrap justify-center gap-4 mt-8 max-w-5xl mx-auto">
-            {/* Service 1 */}
-            <div className="border border-coolgray-30 rounded-lg p-4 w-[220px] text-center">
-              <Heading as="h3" className="text-lg font-semibold text-coolgray-90">Personalized Fitness Plans</Heading>
-              <Text className="text-sm text-coolgray-60 mt-2">
-                Tailored workout routines designed to match your fitness level and goals for optimal results
-              </Text>
-            </div>
-            {/* Service 2 */}
-            <div className="border border-coolgray-30 rounded-lg p-4 w-[220px] text-center">
-              <Heading as="h3" className="text-lg font-semibold text-coolgray-90">Mental Wellness Programs</Heading>
-              <Text className="text-sm text-coolgray-60 mt-2">
-                Holistic programs that focus on improving mental health through stress management and mindfulness techniques
-              </Text>
-            </div>
-            {/* Service 3 */}
-            <div className="border border-coolgray-30 rounded-lg p-4 w-[220px] text-center">
-              <Heading as="h3" className="text-lg font-semibold text-coolgray-90">Nutritional Guidance</Heading>
-              <Text className="text-sm text-coolgray-60 mt-2">
-                AI-generated balanced diets with personalized meal plans to help you achieve your health goals
-              </Text>
-            </div>
-            {/* Service 4 */}
-            <div className="border border-coolgray-30 rounded-lg p-4 w-[220px] text-center">
-              <Heading as="h3" className="text-lg font-semibold text-coolgray-90">Health Monitoring</Heading>
-              <Text className="text-sm text-coolgray-60 mt-2">
-                Track and analyze your fitness, nutrition, and mental health progress in real time
-              </Text>
-            </div>
-          </div>
+      {/* Services Section */}
+        <Heading id="services" as="h2" size="headinglg" className="text-center font-bold mb-3">
+          Explore Our Services
+        </Heading>
+        <Text className="text-gray-900 mb-6 max-w-3xl mx-auto">
+          Discover the variety of ways we can support your health and wellness goals through our comprehensive services.
+        </Text>
+        <div className="flex justify-center gap-6 mt-8 max-w-5xl mx-auto flex-wrap">
+          <Button
+            onClick={() => {
+              navigate("/notfound");
+            }}
+            variant="outline"
+            className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg cursor-auto hover:bg-[#d5e9fd]"
+          >
+            Personalized Fitness Plans
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/wellnesssessionmain");
+            }}
+            variant="outline"
+            className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg cursor-auto hover:bg-[#d5e9fd]"
+          >
+            Mental Wellness Programs
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/mealplanner");
+            }}
+            variant="outline"
+            className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg cursor-auto hover:bg-[#d5e9fd]"
+          >
+            Nutritional Guidance
+          </Button>
+          <Button
+            onClick={() => {
+              navigate("/notfound");
+            }}
+            variant="outline"
+            className="px-6 py-2 border border-primary-60 text-primary-60 font-medium rounded-lg cursor-auto hover:bg-[#d5e9fd]"
+          >
+            Health Monitoring
+          </Button>
         </div>
 
         {/* Impact Section */}
@@ -134,34 +147,30 @@ export default function HomePage() {
 
         {/* Wellness Insights Section */}
         <div className="text-center py-10">
-          <Heading as="h2" className="text-3xl lg:text-4xl font-bold mb-3">Wellness Insights</Heading>
+          <Heading as="h2" size="headinglg" className="text-3xl lg:text-4xl font-bold mb-3">Wellness Insights</Heading>
           <Text className="text-lg text-coolgray-60 mb-8">Stay informed with the latest tips and trends in health and wellness.</Text>
         </div>
 
-{/* Call to Action Section */}
-<div className="bg-default-white py-10 flex items-center justify-between mx-auto max-w-4xl">
-  <div>
-    <Heading as="h2" className="text-3xl lg:text-4xl font-bold mb-3">Start Your Wellness Journey Today</Heading>
-    <Text className="text-base text-coolgray-60">
-      Don’t wait any longer to achieve the healthier, happier you. Sign up today and take the first step towards your transformation.
-    </Text>
-  </div>
-  <div className="flex gap-4">
-    <Button
-      variant="outline"
-      shape="square"
-      className="px-6 py-2 font-medium border-2 border-primary-60"
-    >
-      Join Now
-    </Button>
-    <Button
-      shape="square"
-      className="px-6 py-2 font-medium bg-primary-60 text-white"
-    >
-      Get Started
-    </Button>
-  </div>
-</div>
+        {/* Call to Action Section */}
+        <div className="bg-default-white py-10 flex items-center justify-between mx-auto max-w-4xl">
+          <div>
+            <Heading as="h2" size="headingmd" className="text-3xl lg:text-4xl font-bold mb-3">Start Your Wellness Journey Today</Heading>
+            <Text className="text-base text-coolgray-60">
+              Don’t wait any longer to achieve the healthier, happier you. Sign up today and take the first step towards your transformation.
+            </Text>
+          </div>
+          <div className="flex gap-4">
+            <Button
+              onClick={() => {
+                navigate("/wellnesssessionmain");
+              }}
+              shape="square"
+              className="px-6 py-2 font-medium bg-primary-60 text-white"
+            >
+              Get Started
+            </Button>
+          </div>
+        </div>
 
         {/* Footer */}
         <Footer />

@@ -77,7 +77,7 @@ export default function SignupPage() {
           const user = result.user;
           dispatch({type:"LOGIN", payload:user})
           alert("Logged in successfully!")
-          // navigate("/home")
+          navigate("/home")
       }).catch((error) => {
           console.error("Error:" + error);
       });

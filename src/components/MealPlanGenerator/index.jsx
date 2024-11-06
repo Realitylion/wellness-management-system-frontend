@@ -5,6 +5,7 @@ export default function MealPlanGenerator({
   titleText = "Generate Meal Plan",
   descriptionText = "Get a personalized, AI-generated meal plan based on your preferences and goals.",
   buttonText = "Get Started",
+  buttonClickHandler,
   ...props
 }) {
   return (
@@ -27,6 +28,7 @@ export default function MealPlanGenerator({
             {descriptionText}
         </Text>
         <Button 
+            onClick={buttonClickHandler}
             size="3xl" 
             shape="round" 
             className="ml-5 min-w-[192px] rounded-[14px] px-[34px] font-spacegrotesk sm:ml-0 sm:px-5"

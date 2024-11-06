@@ -3,8 +3,19 @@ import { Img, Heading } from "../..//components";
 import FunFactText from "../..//components/FunFactText";
 import MealPlanGenerator from "../..//components/MealPlanGenerator";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MealPlannermainPage() {
+    const navigate = useNavigate();
+
+    const navigateMealPlan = () => {
+        navigate("/generatemealplan");
+    }
+
+    const navigateTrackCalories = () => {
+        navigate("/meallog");
+    }
+
     return (
         <>
             <Helmet>
@@ -64,11 +75,12 @@ export default function MealPlannermainPage() {
                             <div className="rounded-[10px] bg-default-white p-5">
                             <div className="mt-4 flex items-center md:flex-col">
                                 <div className="flex flex-1 flex-col gap-11 md:self-stretch">
-                                    <MealPlanGenerator />
+                                    <MealPlanGenerator buttonClickHandler={navigateMealPlan} />
                                     <MealPlanGenerator
-                                        titleText="Track your Workouts"
+                                        buttonClickHandler={navigateTrackCalories}
+                                        titleText="Track your Calories"
                                         descriptionText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                                        buttonText="Track Workout"
+                                        buttonText="Track Calories"
                                     />
                                 </div>
                                 <div className="mt-2.5 flex w-[42%] flex-col items-end gap-[72px] px-7 md:w-full md:gap-[54px] sm:gap-9 sm:px-5">

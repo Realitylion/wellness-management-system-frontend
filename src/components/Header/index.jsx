@@ -1,7 +1,18 @@
-import { Heading, Img } from "./..";
+import { Button, Img } from "./..";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ ...props }) {
+  const navigate = useNavigate();
+
+  const navigateToSignup = () => {
+    navigate("/signup");
+  };
+
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <header
       {...props}
@@ -9,36 +20,10 @@ export default function Header({ ...props }) {
     >
       <div className="container-sm flex items-center justify-between gap-5 md:px-5 sm:flex-col">
         <Img src="images/img_header_logo.png" alt="Headerlogo" className="h-[38px] w-[104px] object-contain" />
-        <ul className="!mb-1 !mr-[490px] flex flex-wrap gap-8 self-end sm:mr-0 sm:self-auto">
-          <li>
-            <a href="#">
-              <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                Home
-              </Heading>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                About Us
-              </Heading>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                Services
-              </Heading>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                Blog
-              </Heading>
-            </a>
-          </li>
-        </ul>
+        <div className="flex gap-3">
+          <Button onClick={navigateToLogin} variant="outline" className="min-w-[102px] border-2 px-[26px] font-medium">Log In</Button>
+          <Button onClick={navigateToSignup} className="min-w-[108px] bg-primary-60 text-white px-[26px] font-medium">Sign In</Button>
+        </div>
       </div>
     </header>
   );

@@ -21,7 +21,7 @@ export default function EmailVerificationLinkPage() {
       const user = userCredential.user;
       if (user.emailVerified === true) {
         alert("Email already verified! Redirecting to home page.")
-        // navigate("/home")
+        navigate("/home")
         return;
       }
       sendEmailVerification(user).then(() => {

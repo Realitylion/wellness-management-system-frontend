@@ -9,6 +9,7 @@ export default function WellnesssessionmainColumnOne() {
         {/* Heading Section */}
         <div className="mt-0 mb-6">
           <Heading
+            id="wellnesssessionprogress"
             size="h1"
             className="font-abhayalibre text-[28px] font-normal text-black"
           >

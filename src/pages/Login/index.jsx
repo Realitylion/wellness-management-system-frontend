@@ -40,8 +40,7 @@ export default function LoginPage() {
         return;
       }
       dispatch({type:"LOGIN", payload:user})
-      alert("Logged in successfully!")
-      // navigate("/home")
+      navigate("/home")
     })
     .catch((error) => {
       setPasswordError("Wrong credentials!");
@@ -63,7 +62,7 @@ export default function LoginPage() {
             dispatch({type:"LOGIN", payload:user})
             console.log("Signed in as " + user.displayName);
             alert("Logged in successfully!")
-            // navigate("/home")
+            navigate("/home")
         }).catch((error) => {
             console.error("Error:" + error);
         });
