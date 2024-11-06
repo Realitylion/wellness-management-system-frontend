@@ -1,7 +1,9 @@
 import { Helmet } from "react-helmet";
 import { Heading, Text, Input, Button } from "../../components";
 import React from "react";
-import { toBeRequired } from "@testing-library/jest-dom/matchers";
+import { auth } from '../../firebase';
+import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { useNavigate } from "react-router-dom";
 
 export default function EmailVerificationLinkPage() {
   const [email, setEmail] = React.useState("");
@@ -9,13 +11,33 @@ export default function EmailVerificationLinkPage() {
   const [emailerror, setEmailError] = React.useState("");
   const [passworderror, setPasswordError] = React.useState("");
   const [passwordVisible, setPasswordVisible] = React.useState(false);
+  
+  const navigate = useNavigate();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
-    if (emailerror === "" && passworderror === "") {
-      alert("Verification link sent to your email");
-    }
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      if (user.emailVerified === true) {
+        alert("Email already verified! Redirecting to home page.")
+        // navigate("/home")
+        return;
+      }
+      sendEmailVerification(user).then(() => {
+        alert("Verification email sent! Check your mailbox!")
+        navigate("/login")
+      })
+    })
+    .catch((error) => {
+      if (error.code === 'auth/invalid-email') {
+        setEmailError('Invalid email address!');
+      } else if (error.code === 'auth/invalid-credential') {
+        setPasswordError('Wrong credentials!');
+      } else {
+        setPasswordError(error.code);
+      }
+  })
   }
 
   return (
@@ -109,6 +131,7 @@ export default function EmailVerificationLinkPage() {
             <Button
               shape="square"
               variant="outline"
+              onClick={() => navigate("/login")}
               className="self-stretch border-2 w-full mt-4 border-solid border-primary-60 px-8 font-medium tracking-[0.50px] sm:px-5"
             >
               Back to Login

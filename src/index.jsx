@@ -4,8 +4,13 @@ import App from "./App";
 import "./styles/tailwind.css";
 import "./styles/index.css";
 import "./styles/font.css";
+import { AuthContextProvider } from './context/authContext';
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
-root.render(<App />);
+root.render(
+    <AuthContextProvider>
+        <App />
+    </AuthContextProvider>
+);

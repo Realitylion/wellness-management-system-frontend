@@ -1,20 +1,29 @@
 import { Helmet } from "react-helmet";
 import { Text, Heading, Input, Button } from "../../components";
 import React from "react";
+import { auth } from '../../firebase';
+import { sendPasswordResetEmail } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = React.useState("");
   const [emailerror, setEmailError] = React.useState("");
 
+  const navigate = useNavigate();
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (email === "") {
-      setEmailError("Email is required");
-    } else {
-      setEmailError("");
-    }
-    console.log(email);
-    alert("Reset link sent to your email");
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+      alert("Password reset email sent! Check your mailbox!")
+    })
+    .catch((error) => {
+      if (error.code === 'auth/invalid-email') {
+        setEmailError('Invalid email address!');
+      } else {
+        setEmailError(error.code);
+      }
+    });
   };
 
   return (
@@ -37,6 +46,8 @@ export default function ForgotPasswordPage() {
             </div>
             <Text size="body_1" as="p" className="mt-2 text-center text-[18px] font-normal leading-[146%] text-coolgray-90">
               There is nothing to worry about, we'll send you a message to help you reset your password.
+              <br />
+              Make sure you enter the correct email address. 
             </Text>
           </div>
           <div className="mx-auto w-full max-w-[528px] flex flex-col items-center gap-3.5">
@@ -55,6 +66,7 @@ export default function ForgotPasswordPage() {
                         setEmail(e.target.value)
                         setEmailError("")
                       }}
+                      required
                   />
               </div>
               <div className="text-red-500 text-sm">{emailerror}</div>
@@ -67,11 +79,12 @@ export default function ForgotPasswordPage() {
               </Button>
             </form>
             <Button
-                shape="square"
-                variant="outline"
-                className="self-stretch border-2 border-solid border-primary-60 px-8 font-medium tracking-[0.50px] sm:px-5"
-                >
-                Back to Login
+              shape="square"
+              variant="outline"
+              className="self-stretch border-2 border-solid border-primary-60 px-8 font-medium tracking-[0.50px] sm:px-5"
+              onClick={() => navigate('/login')}
+            >
+              Back to Login
             </Button>
           </div>
         </div>

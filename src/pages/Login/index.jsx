@@ -1,6 +1,10 @@
 import { Helmet } from "react-helmet";
 import { Text, Button, Heading, Input, CheckBox } from "../../components";
 import React from "react";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/authContext';
 
 export default function LoginPage() {
   const [email, setEmail] = React.useState("");
@@ -9,24 +13,77 @@ export default function LoginPage() {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const [emailerror, setEmailError] = React.useState("");
   const [passworderror, setPasswordError] = React.useState("");
+  const [isSigningIn, setIsSigningIn] = React.useState(false);
+
+  const navigate = useNavigate();
+
+  const {dispatch} = React.useContext(AuthContext)
+
+  React.useEffect(() => {
+    if (isSigningIn) {
+      setEmailError("")
+      setPasswordError("")
+      // TODO: Add loading spinner
+    }
+  }, [isSigningIn])
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (email === "") {
-      setEmailError("Email is required");
-    } else {
-      setEmailError("");
-    }
-    if (password === "") {
-      setPasswordError("Password is required");
-    } else {
-      setPasswordError("");
-    }
+    setIsSigningIn(true)
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      if (user.emailVerified === false) {
+        setPasswordError("Email not verified!")
+        alert("Email not verified! Check your mailbox for a verification email.")
+        setIsSigningIn(false);
+        return;
+      }
+      dispatch({type:"LOGIN", payload:user})
+      alert("Logged in successfully!")
+      // navigate("/home")
+    })
+    .catch((error) => {
+      setPasswordError("Wrong credentials!");
+      console.log(error.code, error.message)
+      setIsSigningIn(false);
+    });
     console.log(email, password, rememberMe);
   };
 
-  const handleSignInWithGoogle = () => {
-    alert("Sign in with Google");
+  const handleSignInWithGoogle = async (e) => {
+    e.preventDefault()
+    if (!isSigningIn) {
+        setIsSigningIn(true)
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+        .then(result => {
+            console.log(result);
+            const user = result.user;
+            dispatch({type:"LOGIN", payload:user})
+            console.log("Signed in as " + user.displayName);
+            alert("Logged in successfully!")
+            // navigate("/home")
+        }).catch((error) => {
+            console.error("Error:" + error);
+        });
+        setIsSigningIn(false);
+    }
+  }
+
+  const handleSignUp = (e) => {
+    e.preventDefault()
+    navigate("/signup")
+  }
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault()
+    navigate("/forgotpassword")
+  }
+
+  const handleVerify = (e) => {
+    e.preventDefault()
+    navigate("/emailverificationlink")
   }
 
   return (
@@ -66,6 +123,7 @@ export default function LoginPage() {
                       setEmail(e.target.value)
                       setEmailError("")
                     }}
+                    required
                 />
                 <div className="text-red-500">{emailerror}</div>
               </div>
@@ -82,6 +140,7 @@ export default function LoginPage() {
                         setPassword(e.target.value)
                         setPasswordError("")
                       }}
+                      required
                       suffix={
                         <svg 
                           xmlns="http://www.w3.org/2000/svg" 
@@ -109,11 +168,11 @@ export default function LoginPage() {
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
                   />
-                  <a href="#">
+                  <button className="cursor-pointer" onClick={handleForgotPassword}>
                       <Text as="p" className="text-[14px] font-normal text-primary-90">
                       Forgot Password?
                       </Text>
-                  </a>
+                  </button>
               </div>
               <Button
                 type="submit"
@@ -142,12 +201,19 @@ export default function LoginPage() {
               Google
             </Button>
           </div>
-        <div className="container-xs h-px bg-coolgray-20 md:px-5" />
-        <Text as="p" className="mb-1.5 text-[14px] font-normal text-primary-90">
-          No account yet? Sign Up
-        </Text>
+          <div className="container-xs h-px bg-coolgray-20 md:px-5" />
+          <button onClick={handleSignUp} className="cursor-pointer">
+            <Text as="p" className="text-[14px] font-normal text-primary-90">
+              No account yet? Sign Up
+            </Text>
+          </button>
+          <button onClick={handleVerify} className="cursor-pointer">
+            <Text as="p" className="mb-1.5 text-[14px] font-normal text-primary-90">
+              Did not receive verification email? Click here
+            </Text>
+          </button>
+        </div>
       </div>
-    </div>
     </>
   );
 }

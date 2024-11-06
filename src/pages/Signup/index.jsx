@@ -1,6 +1,10 @@
 import { Helmet } from "react-helmet";
 import { Text, Button, Input, Heading } from "../../components";
 import React from "react";
+import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, sendEmailVerification, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { AuthContext } from '../../context/authContext';
 
 export default function SignupPage() {
   const [firstName, setFirstName] = React.useState("");
@@ -14,46 +18,76 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = React.useState("");
+  const [isSigningIn, setIsSigningIn] = React.useState(false);
+  
+  const navigate = useNavigate();
+
+  const {dispatch} = React.useContext(AuthContext)
+
+  React.useEffect(() => {
+    if (isSigningIn) {
+      setFirstNameError("")
+      setEmailError("")
+      setPasswordError("")
+      setConfirmPasswordError("")
+      // TODO: Add loading spinner
+    }
+  }, [isSigningIn])
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (firstName === "") {
-      setFirstNameError("First name is required");
-    } else {
-      setFirstNameError("");
+    setIsSigningIn(true)
+    if(password !== confirmPassword){
+        setPasswordError("Passwords don't match!")
+        setConfirmPasswordError("Passwords don't match!")
+        setIsSigningIn(false);
+        return;
     }
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        sendEmailVerification(userCredential.user).then(() => {
+            alert("Verification email sent! Check your mailbox!");
+            navigate("/login")
+        })
+    })
+    .catch((error) => {
+      console.log(error.message)
+      setIsSigningIn(false);
+      if (error.code === 'auth/email-already-in-use') {
+        setEmailError('Email address taken. Try a different one.');
+      } else if (error.code === 'auth/invalid-email') {
+        setEmailError('Invalid email address');
+      } else if (error.code === 'auth/weak-password') {
+        setPasswordError('Password should at least be 6 characters');
+        setConfirmPasswordError('Password should at least be 6 characters');
+      } else {
+        setConfirmPasswordError(error.code);
+      }
+    });
+  }
 
-    if (email === "") {
-      setEmailError("Email is required");
-    } else {
-      setEmailError("");
-    }
-
-    if (password === "") {
-      setPasswordError("Password is required");
-    } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
-      return;
-    } else {
-      setPasswordError("");
-    }
-
-    if (confirmPassword === "") {
-      setConfirmPasswordError("Confirm password is required");
-    } else if (password !== confirmPassword) {
-      setConfirmPasswordError("Passwords do not match");
-    } else {
-      setConfirmPasswordError("");
-    }
-
-    if (firstName && email && password && confirmPassword) {
-      console.log(firstName, lastName, email, password);
-      alert("Form submitted successfully. Check your mail for verification link.");
+  const handleSignInWithGoogle = async (e) => {
+    e.preventDefault()
+    if (!isSigningIn) {
+      setIsSigningIn(true)
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+      .then(result => {
+          console.log(result);
+          const user = result.user;
+          dispatch({type:"LOGIN", payload:user})
+          alert("Logged in successfully!")
+          // navigate("/home")
+      }).catch((error) => {
+          console.error("Error:" + error);
+      });
+      setIsSigningIn(false);
     }
   }
 
-  const handleSignInWithGoogle = () => {
-    alert("Google Sign In");
+  const handleLogin = (e) => {
+    e.preventDefault()
+    navigate("/login")
   }
 
   return (
@@ -75,11 +109,9 @@ export default function SignupPage() {
                   Sign Up
                 </Heading>
               </div>
-              <a href="#" className="mb-5">
-                <Text size="body_1" as="p" className="text-[18px] font-normal text-coolgray-90">
-                  Create an account
-                </Text>
-              </a>
+              <Text size="body_1" as="p" className="text-[18px] font-normal text-coolgray-90">
+                Create an account
+              </Text>
             </div>
             <div className="container-xs flex flex-col items-center gap-6">
               <div className="self-stretch">
@@ -101,6 +133,7 @@ export default function SignupPage() {
                                 setFirstName(e.target.value)
                                 setFirstNameError("")
                               }}
+                              required
                           />
                         </div>
                         <div className="flex w-full flex-col items-start justify-center gap-2 sm:w-full">
@@ -108,13 +141,13 @@ export default function SignupPage() {
                               Last Name
                           </Text>
                           <Input
-                              shape="square"
-                              type="text"
-                              name="lastName"
-                              placeholder="Enter your last name"
-                              className="self-stretch border-b border-coolgray-30 px-3.5"
-                              value={lastName}
-                              onChange={(e) => setLastName(e.target.value)}
+                            shape="square"
+                            type="text"
+                            name="lastName"
+                            placeholder="Enter your last name"
+                            className="self-stretch border-b border-coolgray-30 px-3.5"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                           />
                         </div>
                     </div>
@@ -134,6 +167,7 @@ export default function SignupPage() {
                             setEmail(e.target.value)
                             setEmailError("")
                           }}
+                          required
                       />
                       <div className="text-red-500">{emailError}</div>
                     </div>
@@ -146,12 +180,14 @@ export default function SignupPage() {
                         shape="square"
                         type={`${showPassword ? "text" : "password"}`}
                         name="password"
-                        placeholder="It must be a combination of minimum 8 letters, numbers, and symbols."
+                        placeholder="It must be a minimum of 6 characters"
                         value={password}
                         onChange={(e) => {
                           setPassword(e.target.value)
                           setPasswordError("")
+                          setConfirmPasswordError("")
                         }}
+                        required
                         suffix={
                           <svg onClick={() => setShowPassword(!showPassword)}
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -173,12 +209,14 @@ export default function SignupPage() {
                         shape="square"
                         type={`${showConfirmPassword ? "text" : "password"}`}
                         name="confirmpassword"
-                        placeholder="It must be a combination of minimum 8 letters, numbers, and symbols."
+                        placeholder="It must be a minimum of 6 characters"
                         value={confirmPassword}
                         onChange={(e) => {
                           setConfirmPassword(e.target.value)
+                          setPasswordError("")
                           setConfirmPasswordError("")
                         }}
+                        required
                         suffix={
                           <svg onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -213,18 +251,18 @@ export default function SignupPage() {
                     </svg>
                     }
                     className="gap-4 self-stretch border-2 px-8 font-medium tracking-[0.50px] sm:px-5"
-                    onClick={() => handleSignInWithGoogle()}
+                    onClick={handleSignInWithGoogle}
                   >
                       Google
                   </Button>
                 </div>
               </div>
               <div className="h-px w-full self-stretch bg-coolgray-20" />
-              <a href="#">
+              <button className="cursor-pointer" onClick={handleLogin}>
                   <Text as="p" className="text-[14px] font-normal text-primary-90">
-                      Already have an account?
+                      Already have an account? Log In
                   </Text>
-              </a>
+              </button>
             </div>
           </div>
         </div>
