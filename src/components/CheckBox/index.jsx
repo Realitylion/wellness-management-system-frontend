@@ -15,16 +15,12 @@ const CheckBox = React.forwardRef(
       name = "checkbox",
       label = "",
       id = "checkbox_id",
-      onChange,
       variant = "primary",
       size = "xs",
       ...restProps
     },
     ref
   ) => {
-    const handleChange = (e) => {
-      if (onChange) onChange(e?.target?.checked);
-    };
 
     return (
       <>
@@ -34,7 +30,6 @@ const CheckBox = React.forwardRef(
             ref={ref}
             type="checkbox"
             name={name}
-            onChange={handleChange}
             id={id}
             {...restProps}
             />
