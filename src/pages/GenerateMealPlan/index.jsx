@@ -43,6 +43,7 @@ export default function GenerateMealPlanPage() {
       return;
     }
     setSelectedNutrientOptions((prev) => {
+      console.log(selectedNutrientOptions);
       if (prev.includes(nutrient)) {
         return prev.filter((item) => item !== nutrient);
       } else {
@@ -158,13 +159,11 @@ export default function GenerateMealPlanPage() {
                       <div className="flex flex-col items-start gap-2.5 self-stretch px-3.5 lg:px-5 md:px-5 sm:px-4">
                         <div className="flex flex-wrap items-center gap-[13px] self-stretch">
                           {nutrients.map((nutrient) => (
-                            <Button
+                            <Button  
                               key={nutrient}
-                              color="default_white"
+                              color={selectedNutrientOptions.includes(nutrient) ? "coolgray_20" : "default_white"}
                               size="lg"
-                              className={`min-w-[120px] rounded-[18px] border border-solid border-coolgray-20 px-[19px] font-montserrat font-thin tracking-[0.50px] hover:bg-coolgray-20 ${
-                                selectedNutrientOptions.includes(nutrient) ? "bg-[#dde1e6]" : ""
-                              }`}
+                              className="min-w-[120px] rounded-[18px] border border-solid border-coolgray-20 px-[19px] font-montserrat font-thin tracking-[0.50px] hover:bg-coolgray-20"
                               onClick={(e) => handleButtonClick(e, nutrient)}
                             >
                               {nutrient}
