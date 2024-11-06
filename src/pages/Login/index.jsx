@@ -22,13 +22,11 @@ export default function LoginPage() {
     } else {
       setPasswordError("");
     }
-    console.log(email);
-    console.log(password);
-    console.log(rememberMe);
+    console.log(email, password, rememberMe);
   };
 
   const handleSignInWithGoogle = () => {
-    console.log("Sign in with Google");
+    alert("Sign in with Google");
   }
 
   return (
