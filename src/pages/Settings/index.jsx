@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet";
 import { Heading } from "../../components";
 import FormWithLabelsAndFields from "../../components/FormWithLabelsAndFields";
-import Formwithhealthdetails from "../../components/Formwithhealthdetails"
 import Sidebar11 from "../../components/Sidebar11";
 import SuccessNotification from "../../components/SuccessNotification";
 import SettingsRowSecondary from "./SettingsRowsecondary";
@@ -44,15 +43,6 @@ export default function SettingsPage() {
                     </Heading>
                 </div>
                 <FormWithLabelsAndFields className="w-[92%] md:w-full" />
-              </div>
-
-              <div className="flex w-[92%] flex-col justify-center gap-[22px] border border-solid border-coolgray-20 bg-default-white px-4 py-3 md:w-full">
-                <div className="flex ">
-                    <Heading size="heading_6" as="h5" className="text-[18px] font-bold text-coolgray-90">
-                    Health Details
-                    </Heading>
-                </div>
-                <Formwithhealthdetails className="w-[92%] md:w-full" />
               </div>
               <SuccessNotification />
             </div>
