@@ -14,14 +14,15 @@ export default function CompleteprofileRowSecondary() {
         </Heading>
       </div>
       <div className="flex px-2 py-3">
-        <Heading
+        {/* <Heading
           size="button_m"
           as="h2"
           className="text-[16px] font-medium tracking-[0.50px] text-primary-60"
         >
           Finish Later
-        </Heading>
+        </Heading> */}
       </div>
     </div>
   );
 }
+
