@@ -14,9 +14,10 @@ export default function CombinedForm({
   labeltext4 = "Email ID",
   labeltext5 = "DOB",
   labeltext6 = "Blood Group",
-  labeltext7 = "BMI Value",
+  labeltext7 = "Height",
   labeltext8 = "Any Health Issues / Allergies",
   labeltext9 = "Any Prior Injuries",
+  labeltext10 = "Weight",
   editProfileButton = "Submit",
   ...props
 }) {
@@ -102,14 +103,26 @@ export default function CombinedForm({
           />
         </div>
 
-        {/* BMI Value */}
+        {/* Height */}
         <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
           <Text as="p" className="text-[14px] font-normal text-coolgray-90">
             {labeltext7}
           </Text>
           <Input
             shape="square"
-            placeholder="Enter Your BMI Level"
+            placeholder="Enter Your Height"
+            className="self-stretch border-b border-coolgray-30 px-3.5"
+          />
+        </div>
+
+        {/* Weight*/}
+        <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
+          <Text as="p" className="text-[14px] font-normal text-coolgray-90">
+            {labeltext10}
+          </Text>
+          <Input
+            shape="square"
+            placeholder="Enter Your Weight"
             className="self-stretch border-b border-coolgray-30 px-3.5"
           />
         </div>
