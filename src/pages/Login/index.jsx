@@ -27,11 +27,11 @@ export default function LoginPage() {
     }
   }, [isSigningIn])
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setIsSigningIn(true)
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       const user = userCredential.user;
       if (user.emailVerified === false) {
         setPasswordError("Email not verified!")
@@ -39,8 +39,28 @@ export default function LoginPage() {
         setIsSigningIn(false);
         return;
       }
-      dispatch({type:"LOGIN", payload:user})
-      navigate("/home")
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/getUser?email=${encodeURIComponent(email)}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("User not found");
+        }
+        const userData = await response.json();
+        console.log("User data:", userData);
+        if (userData.profileCompleted === false) {
+          alert("Please complete your profile first!")
+          navigate("/completeprofile")
+          return;
+        }
+        dispatch({type:"LOGIN", payload:user})
+        navigate("/home")
+      } catch (error) {
+        console.error("Error fetching user:", error.message);
+      }
     })
     .catch((error) => {
       setPasswordError("Wrong credentials!");

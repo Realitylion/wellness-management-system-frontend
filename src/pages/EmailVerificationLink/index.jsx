@@ -20,8 +20,9 @@ export default function EmailVerificationLinkPage() {
     .then((userCredential) => {
       const user = userCredential.user;
       if (user.emailVerified === true) {
-        alert("Email already verified! Redirecting to home page.")
-        navigate("/home")
+        alert("Email already verified! Redirecting to login page.")
+        localStorage.removeItem("token");
+        navigate("/login");
         return;
       }
       sendEmailVerification(user).then(() => {

@@ -1,11 +1,6 @@
-import { Button, SelectBox, Img, Text, Input } from "./..";
+import { Button, Text, Input } from "./..";
 import React from "react";
-
-const dropDownOptions = [
-  { label: "Option1", value: "option1" },
-  { label: "Option2", value: "option2" },
-  { label: "Option3", value: "option3" },
-];
+import { useNavigate } from "react-router-dom";
 
 export default function CombinedForm({
   labeltext1 = "First Name",
@@ -21,15 +16,127 @@ export default function CombinedForm({
   editProfileButton = "Submit",
   ...props
 }) {
+  // State variables to store form data
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [dob, setDob] = React.useState("");
+  const [bloodGroup, setBloodGroup] = React.useState("");
+  const [height, setHeight] = React.useState("");
+  const [weight, setWeight] = React.useState("");
+  const [healthIssues, setHealthIssues] = React.useState("");
+  const [priorInjuries, setPriorInjuries] = React.useState("");
+
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    // Retrieve the item from local storage
+    const userDataString = localStorage.getItem("user");
+
+    // Parse the JSON string into an object
+    const userData = JSON.parse(userDataString);
+
+    // Access the email
+    const emailVal = userData.email;
+    console.log("Email:", emailVal);
+    // Fetch user data from the backend
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_API}/api/getUser?email=${encodeURIComponent(
+            emailVal
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("User not found");
+        }
+        const userData = await response.json();
+        console.log("User data:", userData);
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setPhoneNumber(userData.phoneNumber);
+        setEmail(userData.email);
+        setDob(userData.dob);
+        setBloodGroup(userData.bloodGroup);
+        setHeight(userData.height);
+        setWeight(userData.weight);
+        setHealthIssues(userData.healthIssues);
+        setPriorInjuries(userData.priorInjuries);
+      } catch (error) {
+        console.error("Error fetching user:", error.message); 
+      }
+    };
+    fetchUserData();
+  }, [email]);
+
   // Function to handle form submission
-  const handleFormSubmit = () => {
-    console.log("Form submitted with data:");
-    console.log(labeltext1, labeltext2, labeltext3, labeltext4, labeltext5);
-    console.log(labeltext6, labeltext7, labeltext8, labeltext9);
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    console.log("Form submitted with data:", {
+      firstName: firstName,
+      lastName,
+      phoneNumber,
+      email,
+      dob,
+      bloodGroup,
+      height,
+      weight,
+      healthIssues,
+      priorInjuries,
+    });
+
+    // update user in the backend
+    const updateUser = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_API}/api/updateUser`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              firstName,
+              lastName,
+              phoneNumber,
+              profileCompleted: true,
+              email,
+              dob,
+              bloodGroup,
+              height,
+              weight,
+              healthIssues,
+              priorInjuries,
+            }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Error updating user");
+        }
+        const data = await response.json();
+        console.log(data);
+        alert("User updated successfully");
+        navigate("/home");
+      } catch (error) {
+        console.error("Error updating user:", error.message);
+      }
+    };
+    updateUser();
   };
 
   return (
-    <div {...props} className={`${props.className} flex flex-col items-end gap-4`}>
+    <form
+      onSubmit={handleFormSubmit}
+      {...props}
+      className={`${props.className} flex flex-col items-end gap-4`}
+    >
       <div className="flex flex-wrap gap-4 w-full">
         {/* First Name */}
         <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
@@ -40,9 +147,12 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your First Name"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
           />
         </div>
-        
+
         {/* Last Name */}
         <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
           <Text as="p" className="text-[14px] font-normal text-coolgray-90">
@@ -52,6 +162,8 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your Last Name"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </div>
 
@@ -64,6 +176,9 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your Mobile Number"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            required
           />
         </div>
 
@@ -76,6 +191,10 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your Email ID"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            readOnly
+            required
           />
         </div>
 
@@ -88,6 +207,9 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your Date Of Birth"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            required
           />
         </div>
 
@@ -100,6 +222,8 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your Blood Group"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={bloodGroup}
+            onChange={(e) => setBloodGroup(e.target.value)}
           />
         </div>
 
@@ -112,10 +236,13 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your Height"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            required
           />
         </div>
 
-        {/* Weight*/}
+        {/* Weight */}
         <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
           <Text as="p" className="text-[14px] font-normal text-coolgray-90">
             {labeltext10}
@@ -124,6 +251,9 @@ export default function CombinedForm({
             shape="square"
             placeholder="Enter Your Weight"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            required
           />
         </div>
 
@@ -134,8 +264,11 @@ export default function CombinedForm({
           </Text>
           <Input
             shape="square"
-            placeholder="Enter Health Data"
+            placeholder="Type NA if none"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={healthIssues}
+            onChange={(e) => setHealthIssues(e.target.value)}
+            required
           />
         </div>
 
@@ -146,8 +279,11 @@ export default function CombinedForm({
           </Text>
           <Input
             shape="square"
-            placeholder="Enter Injury Data"
             className="self-stretch border-b border-coolgray-30 px-3.5"
+            value={priorInjuries}
+            placeholder="Type NA if none"
+            onChange={(e) => setPriorInjuries(e.target.value)}
+            required
           />
         </div>
       </div>
@@ -155,11 +291,11 @@ export default function CombinedForm({
       {/* Submit Button */}
       <Button
         shape="square"
+        type="submit"
         className="min-w-[140px] border-2 border-solid border-primary-60 px-[26px] font-medium tracking-[0.50px] sm:px-5 mt-4"
-        onClick={handleFormSubmit}
       >
         {editProfileButton}
       </Button>
-    </div>
+    </form>
   );
 }

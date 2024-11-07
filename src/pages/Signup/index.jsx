@@ -36,35 +36,74 @@ export default function SignupPage() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setIsSigningIn(true)
-    if(password !== confirmPassword){
-        setPasswordError("Passwords don't match!")
-        setConfirmPasswordError("Passwords don't match!")
-        setIsSigningIn(false);
-        return;
-    }
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        sendEmailVerification(userCredential.user).then(() => {
-            alert("Verification email sent! Check your mailbox!");
-            navigate("/login")
-        })
-    })
-    .catch((error) => {
-      console.log(error.message)
+    setIsSigningIn(true);
+    setPasswordError("");
+    setConfirmPasswordError("");
+    setEmailError("");
+  
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords don't match!");
+      setConfirmPasswordError("Passwords don't match!");
       setIsSigningIn(false);
-      if (error.code === 'auth/email-already-in-use') {
-        setEmailError('Email address taken. Try a different one.');
-      } else if (error.code === 'auth/invalid-email') {
-        setEmailError('Invalid email address');
-      } else if (error.code === 'auth/weak-password') {
-        setPasswordError('Password should at least be 6 characters');
-        setConfirmPasswordError('Password should at least be 6 characters');
-      } else {
-        setConfirmPasswordError(error.code);
-      }
-    });
-  }
+      return;
+    }
+  
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+  
+        // Send email verification
+        sendEmailVerification(user).then(() => {
+          alert("Verification email sent! Check your mailbox!");
+  
+          // Prepare the new user data for the backend
+          const newUser = {
+            firstName: firstName, // Assuming firstName is part of your component state
+            lastName: lastName,   // Assuming lastName is part of your component state
+            email: user.email,
+          };
+  
+          // Call your backend API to save the user to the database
+          fetch(`${process.env.REACT_APP_BACKEND_API}/api/createUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+          })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to create user in the database.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("User created in database:", data);
+            navigate("/login");
+          })
+          .catch((err) => {
+            console.error(err.message);
+            alert("Error creating user in the database.");
+          });
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setIsSigningIn(false);
+  
+        if (error.code === "auth/email-already-in-use") {
+          setEmailError("Email address taken. Try a different one.");
+        } else if (error.code === "auth/invalid-email") {
+          setEmailError("Invalid email address");
+        } else if (error.code === "auth/weak-password") {
+          setPasswordError("Password should at least be 6 characters");
+          setConfirmPasswordError("Password should at least be 6 characters");
+        } else {
+          setConfirmPasswordError(error.message);
+        }
+      });
+  };
+  
 
   const handleSignInWithGoogle = async (e) => {
     e.preventDefault()
