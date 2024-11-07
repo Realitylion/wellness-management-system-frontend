@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet";
-import { Heading, Button, Input, ChipView, SelectBox, Img, Text } from "../../components";
+import { Heading, Button, Input, SelectBox, Img } from "../../components";
 import React from "react";
+import NavBar from "../../components/NavBar";
 
 const mealTypeOptions = [
   { label: "Breakfast", value: "breakfast" },
@@ -59,60 +60,8 @@ export default function GenerateMealPlanPage() {
         <meta name="description" content="Web site created using create-react-app" />
       </Helmet>
       <div className="w-full h-[100vh]">
+        <NavBar />          
         <div className="flex flex-col h-full bg-coolgray-10 content-center">
-          <header className="relative z-[1] flex items-center justify-center border-b border-solid border-coolgray-20 bg-default-white p-[18px]">
-            <div className="flex w-[86%] items-center justify-between gap-5 lg:w-full md:w-full md:flex-col">
-              <div className="flex w-[64%] items-center justify-between gap-5 md:w-full sm:flex-col">
-                <div className="flex flex-1 sm:self-stretch">
-                  <div className="flex items-start gap-1">
-                    <a href="#">
-                      <Img src="images/img_rectangle_14_stroke.svg" alt="Image" className="h-[24px] w-[24px]" />
-                    </a>
-                    <Heading
-                      size="heading_4"
-                      as="h4"
-                      className="mb-1.5 text-[24px] font-bold text-coolgray-68 lg:text-[28px]"
-                    >
-                      Trenify
-                    </Heading>
-                  </div>
-                </div>
-                <ul className="mb-1 flex flex-wrap gap-8 self-end sm:self-auto">
-                  <li>
-                      <a href="#" className="lg:text-[13px]">
-                      <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                          Home
-                      </Heading>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#" className="lg:text-[13px]">
-                      <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                          About Us
-                      </Heading>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#" className="lg:text-[13px]">
-                      <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                          Services
-                      </Heading>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#" className="lg:text-[13px]">
-                      <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                          Blog
-                      </Heading>
-                      </a>
-                  </li>
-                </ul>
-              </div>
-              <a href="#">
-                  <Img src="images/img_lock.svg" alt="Lock" className="h-[30px] self-end md:w-full md:self-auto" />
-              </a>
-            </div>
-          </header>
           <div className="w-full flex flex-1 items-center justify-center px-9 py-[46px] lg:h-auto md:h-auto md:py-5 sm:p-4">
             <div className="w-[42%] md:w-full">
               <div className="flex flex-col items-start gap-5">

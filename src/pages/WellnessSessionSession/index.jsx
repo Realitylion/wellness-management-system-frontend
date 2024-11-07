@@ -2,34 +2,20 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Img, Heading } from "../../components";
 import "./WellnessSessionSessionPage.css";
+import NavBar from "../../components/NavBar";
 
 export default function WellnessSessionPage() {
     return (
-        <>
+        <div className="w-full">
+            <NavBar />
             <Helmet>
                 <title>Wellness Management System</title>
                 <meta name="description" content="Wellness session management" />
             </Helmet>
 
-            {/* Header */}
-            <header className="header">
-                <div className="header-container">
-                    <Img src="/images/img_header_logo.png" alt="Trenify Logo" className="logo" />
-                    <nav>
-                        <ul className="nav-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li><a href="#">Blog</a></li>
-                        </ul>
-                    </nav>
-                    <Img src="/images/img_lock.svg" alt="User Icon" className="user-icon" />
-                </div>
-            </header>
-
             {/* Main Content */}
-            <main className="main-content">
-                <Heading as="h1" className="main-heading">Record Your Wellness Session</Heading>
+            <div className="mt-5">
+                <Heading as="h1" className="main-heading text-center">Record Your Wellness Session</Heading>
                 
                 {/* Session Categories */}
                 <div className="session-categories">
@@ -64,24 +50,7 @@ export default function WellnessSessionPage() {
                     <button className="start-button">Start</button>
                     <button className="end-button">End</button>
                 </div>
-            </main>
-
-            {/* Footer */}
-            <footer className="footer">
-                <div className="footer-container">
-                    <Img src="/images/img_footer_logo.png" alt="Trenify Logo" className="footer-logo" />
-                    <p>Trenify@2024. All rights reserved.</p>
-                    <nav>
-                        <ul className="footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Blog</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </footer>
-        </>
+            </div>
+        </div>
     );
 }

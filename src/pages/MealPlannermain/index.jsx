@@ -4,6 +4,7 @@ import FunFactText from "../..//components/FunFactText";
 import MealPlanGenerator from "../..//components/MealPlanGenerator";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../../components/NavBar";
 
 export default function MealPlannermainPage() {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function MealPlannermainPage() {
         navigate("/generatemealplan");
     }
 
-    const navigateTrackCalories = () => {
+    const navigateCalories = () => {
         navigate("/meallog");
     }
 
@@ -23,53 +24,8 @@ export default function MealPlannermainPage() {
                 <meta name="description" content="Web site created using create-react-app" />
             </Helmet>
             <div className="w-full h-[100vh]">
+                <NavBar />
                 <div className="flex h-full flex-col items-center gap-4 bg-coolgray-10">
-                    <header className="flex items-center self-stretch">
-                        <div className="relative h-[80px] w-full content-center md:h-auto">
-                            <div className="mx-auto flex justify-center border-b border-solid border-coolgray-20 bg-default-white p-[18px]">
-                                <div className="mx-auto flex w-full max-w-[1320px] items-end justify-between gap-5 sm:flex-col">
-                                <Img
-                                    src="images/img_header_logo.png"
-                                    alt="Headerlogo"
-                                    className="h-[38px] w-[104px] self-center object-contain"
-                                />
-                                <ul className="!mb-1 flex flex-wrap gap-8">
-                                    <li>
-                                        <a href="#">
-                                        <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                            Home
-                                        </Heading>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                        <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                            About Us
-                                        </Heading>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                        <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                            Services
-                                        </Heading>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                        <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                            Blog
-                                        </Heading>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <a href="#">
-                                    <Img src="images/img_lock.svg" alt="Lock" className="h-[30px] sm:w-full" />
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
                     <div className="flex-1 mx-auto mb-1 flex w-full max-w-[1406px] items-center gap-[30px] self-stretch md:flex-col md:px-5">     
                         <div className="h-[700px] flex-1 md:self-stretch">
                             <div className="rounded-[10px] bg-default-white p-5">
@@ -77,7 +33,7 @@ export default function MealPlannermainPage() {
                                 <div className="flex flex-1 flex-col gap-11 md:self-stretch">
                                     <MealPlanGenerator buttonClickHandler={navigateMealPlan} />
                                     <MealPlanGenerator
-                                        buttonClickHandler={navigateTrackCalories}
+                                        buttonClickHandler={navigateCalories}
                                         titleText="Track your Calories"
                                         descriptionText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                                         buttonText="Track Calories"

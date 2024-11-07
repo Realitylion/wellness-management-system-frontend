@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet";
 import { Button, Heading, Img, Text } from "../../components"; 
+import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import { useNavigate } from "react-router-dom";
 
@@ -20,24 +21,9 @@ export default function HomePage() {
         <meta name="description" content="Web site created using create-react-app" />
       </Helmet>
 
-      <div className="bg-default-white py-4">
+      <div className="bg-default-white">
         {/* Header Section */}
-        <header className="container-sm flex items-center justify-between border-b border-solid border-coolgray-20 px-5">
-          <Img src="images/img_header_logo.png" alt="Header Logo" className="w-[130px] h-auto p-2 object-contain" />
-          <nav className="flex items-center gap-8">
-            <ul className="flex flex-wrap gap-8">
-              <li><a href="#"><Heading as="p" className="text-[16px] font-medium text-coolgray-90">Home</Heading></a></li>
-              <li><a href="#"><Heading as="p" className="text-[16px] font-medium text-coolgray-90">About Us</Heading></a></li>
-              <li><a href="#"><Heading as="p" className="text-[16px] font-medium text-coolgray-90">Services</Heading></a></li>
-              <li><a href="#"><Heading as="p" className="text-[16px] font-medium text-coolgray-90">Contact</Heading></a></li>
-              <li><a href="#"><Heading as="p" className="text-[16px] font-medium text-coolgray-90">Blog</Heading></a></li>
-            </ul>
-            <div className="flex gap-4">
-              <Button variant="outline" className="min-w-[102px] border-2 px-[26px] font-medium">Log In</Button>
-              <Button className="min-w-[108px] bg-primary-60 text-white px-[26px] font-medium">Sign In</Button>
-            </div>
-          </nav>
-        </header>
+        <NavBar />
 
         {/* Hero Section */}
         <div className="flex items-center justify-between my-10 max-w-5xl mx-auto px-4 lg:px-0">

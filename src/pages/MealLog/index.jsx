@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Img, Heading, SelectBox } from "../../components";
+import { Button, Img, SelectBox } from "../../components";
+import NavBar from "../../components/NavBar";
 
 const mealTypeOptions = [
   { label: "Breakfast", value: "breakfast" },
@@ -25,53 +26,8 @@ const MealLog = () => {
   return (
     <>
       <div className="w-full h-[100vh]">
-        <div className="flex h-full flex-col items-center gap-4 bg-coolgray-10">
-          <header className="flex items-center self-stretch">
-            <div className="relative h-[80px] w-full content-center md:h-auto">
-                <div className="mx-auto flex justify-center border-b border-solid border-coolgray-20 bg-default-white p-[18px]">
-                    <div className="mx-auto flex w-full max-w-[1320px] items-end justify-between gap-5 sm:flex-col">
-                    <Img
-                        src="images/img_header_logo.png"
-                        alt="Headerlogo"
-                        className="h-[38px] w-[104px] self-center object-contain"
-                    />
-                    <ul className="!mb-1 flex flex-wrap gap-8">
-                        <li>
-                            <a href="#">
-                            <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                Home
-                            </Heading>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                            <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                About Us
-                            </Heading>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                            <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                Services
-                            </Heading>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                            <Heading as="p" className="text-[16px] font-medium text-coolgray-90">
-                                Blog
-                            </Heading>
-                            </a>
-                        </li>
-                    </ul>
-                    <a href="#">
-                        <Img src="images/img_lock.svg" alt="Lock" className="h-[30px] sm:w-full" />
-                    </a>
-                    </div>
-                </div>
-            </div>
-          </header>
+        <NavBar />
+        <div className="pt-5 flex h-full flex-col items-center gap-4 bg-coolgray-10">
           <h1 className="text-2xl font-bold text-center">TRACK YOUR CALORIES</h1>
           <div className="flex flex-1 p-8 pt-0 bg-gray-100">
             <div className="flex flex-col gap-6 w-1/2 p-4">
