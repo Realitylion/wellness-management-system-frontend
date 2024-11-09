@@ -48,7 +48,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="w-full lg:w-1/2 flex justify-center">
-            <Img src="/images/hero1_image.png" alt="Hero" className="w-[80%] max-w-md object-contain" />
+            <Img src="/images/hero_image.png" alt="Hero" className="w-[80%] max-w-md object-contain" />
           </div>
         </div>
 
