@@ -1,10 +1,10 @@
 import { Helmet } from "react-helmet";
 import { Img, Heading } from "../..//components";
-import FunFactText from "../..//components/FunFactText";
 import MealPlanGenerator from "../..//components/MealPlanGenerator";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
+import { FaLightbulb } from "react-icons/fa"; // Importing icon library
 
 export default function MealPlannermainPage() {
     const navigate = useNavigate();
@@ -16,6 +16,27 @@ export default function MealPlannermainPage() {
     const navigateCalories = () => {
         navigate("/meallog");
     }
+
+    // Inline styles for the fun fact box
+    const funFactBoxStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: '#f0f4f8',
+        border: '1px solid #e5e7eb',
+        borderRadius: '8px',
+        padding: '12px 16px',
+        fontSize: '14px',
+        color: '#4b5563',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+        marginBottom: '8px',
+        transition: 'transform 0.2s ease-in-out',
+    };
+
+    const iconStyle = {
+        color: '#f59e0b', // Yellow color for the lightbulb icon
+        marginRight: '8px',
+        fontSize: '20px',
+    };
 
     return (
         <>
@@ -35,7 +56,7 @@ export default function MealPlannermainPage() {
                                     <MealPlanGenerator
                                         buttonClickHandler={navigateCalories}
                                         titleText="Track your Calories"
-                                        descriptionText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                                        descriptionText="Tracking calories helps you make mindful choices and supports your health goals."
                                         buttonText="Track Calories"
                                     />
                                 </div>
@@ -65,10 +86,26 @@ export default function MealPlannermainPage() {
                         </div>
                         <div className="max-h-[700px] w-1/5 md:w-full overflow-auto">
                             <div className="rounded-[10px] h-auto bg-default-white px-5 py-6 sm:py-5">
-                                <div className="flex flex-col md:flex-row sm:flex-col">
-                                    <FunFactText funFactText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." className="gap-2"/>
-                                    <FunFactText funFactText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-                                    et dolore magna aliqua." className="gap-2"/>
+                                <Heading
+                                    size="4"
+                                    as="h2"
+                                    className="text-lg font-semibold text-gray-800 mb-4"
+                                >
+                                    Fun Facts
+                                </Heading>
+                                <div className="flex flex-col gap-4">
+                                    <div style={funFactBoxStyle}>
+                                        <FaLightbulb style={iconStyle} />
+                                        <p>Small daily habits like hydration and short walks boost your overall wellness.</p>
+                                    </div>
+                                    <div style={funFactBoxStyle}>
+                                        <FaLightbulb style={iconStyle} />
+                                        <p>Taking breaks during work can improve focus and productivity.</p>
+                                    </div>
+                                    <div style={funFactBoxStyle}>
+                                        <FaLightbulb style={iconStyle} />
+                                        <p>Sunlight exposure in the morning enhances mood and energy levels.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -78,5 +115,3 @@ export default function MealPlannermainPage() {
         </>
     );
 }
-
-// h-[calc(100vh-100px)]
