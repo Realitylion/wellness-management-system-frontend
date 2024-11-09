@@ -33,6 +33,7 @@ export default function LoginPage() {
     signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
+      // if email is not verified, alert user and return
       if (user.emailVerified === false) {
         setPasswordError("Email not verified!")
         alert("Email not verified! Check your mailbox for a verification email.")
@@ -40,28 +41,37 @@ export default function LoginPage() {
         return;
       }
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/getUser?email=${encodeURIComponent(email)}`, {
+        // fetch user data from backend
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/getUser?email=${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
+        // if user not found, alert user and return
         if (!response.ok) {
           throw new Error("User not found");
         }
         const userData = await response.json();
         console.log("User data:", userData);
+
+        dispatch({ type: "LOGIN", payload: userData });
+        console.log("Signed in as " + userData.firstName + " " + userData.lastName);
+
+        // if profile is not completed, alert user and navigate to complete profile page
         if (userData.profileCompleted === false) {
           alert("Please complete your profile first!")
           navigate("/completeprofile")
           return;
         }
-        dispatch({type:"LOGIN", payload:user})
+
+        // if profile is completed, navigate to home page
         navigate("/home")
       } catch (error) {
         console.error("Error fetching user:", error.message);
       }
     })
+    // if there is an error, alert user and log error
     .catch((error) => {
       setPasswordError("Wrong credentials!");
       console.log(error.code, error.message)
@@ -73,20 +83,86 @@ export default function LoginPage() {
   const handleSignInWithGoogle = async (e) => {
     e.preventDefault()
     if (!isSigningIn) {
-        setIsSigningIn(true)
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-        .then(result => {
-            console.log(result);
+      setIsSigningIn(true)
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+      .then(async result => {
+        try {
+          // get user email
+          const email = result.user.email;
+          // fetch user data from backend
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/getUser?email=${email}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          // if user is not found, create a new user first
+          if (response.status === 404) {
+            console.log("User not found, creating user..");
             const user = result.user;
+            const firstName = user.displayName.split(" ")[0];
+            const lastName = user.displayName.split(" ")[1];
+            const newUser = {
+              email: user.email,
+              firstName: firstName,
+              lastName: lastName,
+              profileCompleted: false,
+            }
+            // create new user in backend
+            await fetch(`${process.env.REACT_APP_BACKEND_API}/api/createUser`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(newUser),
+            })
+            .then(async (response) => {
+              if (!response.ok) {
+                throw new Error("User not created");
+              }
+              console.log("User created successfully");
+              await dispatch({ type: "LOGIN", payload: user });
+              
+              console.log("Signed in as " + user.displayName);
+              alert("Complete your profile!");
+              
+              // Navigate after state update
+              setTimeout(() => {
+                navigate("/completeprofile");
+              }, 100);
+            }).catch((error) => {
+                console.error("Error:" + error);
+            });
+          }
+          // if user is found, navigate based on profile completion
+          else {
+            if (!response.ok) {
+              throw new Error("User not found");
+            }
+            const userData = await response.json();
+            console.log("User data:", userData);
+            // if profile is not completed, alert user and navigate to complete profile page
+            if (userData.profileCompleted === false) {
+              alert("Please complete your profile first!")
+              navigate("/completeprofile")
+              return;
+            }
+            // if profile is completed, dispatch user data to context and navigate to home page
+            const user = result.user;
+            console.log(user);
+            alert("Logged in successfully!");
             dispatch({type:"LOGIN", payload:user})
-            console.log("Signed in as " + user.displayName);
-            alert("Logged in successfully!")
             navigate("/home")
-        }).catch((error) => {
-            console.error("Error:" + error);
-        });
-        setIsSigningIn(false);
+            return;
+          }
+        } catch (error) {
+          console.error("Error fetching user:", error.message);
+        }
+      }).catch((error) => {
+          console.error("Error:" + error);
+      });
+      setIsSigningIn(false);
     }
   }
 

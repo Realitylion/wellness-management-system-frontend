@@ -34,89 +34,150 @@ export default function SignupPage() {
     }
   }, [isSigningIn])
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setIsSigningIn(true);
-    setPasswordError("");
-    setConfirmPasswordError("");
-    setEmailError("");
-  
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    setIsSigningIn(true)
+    setPasswordError("")
+    setConfirmPasswordError("")
+    setEmailError("")
+    setFirstNameError("")
     if (password !== confirmPassword) {
-      setPasswordError("Passwords don't match!");
-      setConfirmPasswordError("Passwords don't match!");
-      setIsSigningIn(false);
-      return;
+      setPasswordError("Passwords don't match!")
+      setConfirmPasswordError("Passwords don't match!")
+      setIsSigningIn(false)
+      return
     }
-  
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-  
-        // Send email verification
-        sendEmailVerification(user).then(() => {
-          alert("Verification email sent! Check your mailbox!");
-  
-          // Prepare the new user data for the backend
-          const newUser = {
-            firstName: firstName, // Assuming firstName is part of your component state
-            lastName: lastName,   // Assuming lastName is part of your component state
-            email: user.email,
-          };
-  
-          // Call your backend API to save the user to the database
-          fetch(`${process.env.REACT_APP_BACKEND_API}/api/createUser`, {
-            method: 'POST',
+    .then((userCredential) => {
+      const user = userCredential.user
+      // create user in the backend
+      const createUser = async () => {
+        try {
+          console.log("Creating user in the database...");
+          console.log(firstName, lastName, email);
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/createUser`, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(newUser),
-          })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Failed to create user in the database.");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            console.log("User created in database:", data);
-            navigate("/login");
-          })
-          .catch((err) => {
-            console.error(err.message);
-            alert("Error creating user in the database.");
+            body: JSON.stringify({
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              profileCompleted: false,
+            }),
           });
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setIsSigningIn(false);
-  
-        if (error.code === "auth/email-already-in-use") {
-          setEmailError("Email address taken. Try a different one.");
-        } else if (error.code === "auth/invalid-email") {
-          setEmailError("Invalid email address");
-        } else if (error.code === "auth/weak-password") {
-          setPasswordError("Password should at least be 6 characters");
-          setConfirmPasswordError("Password should at least be 6 characters");
-        } else {
-          setConfirmPasswordError(error.message);
+          if (!response.ok) {
+            throw new Error("Error creating user in the database.");
+          }
+          const data = await response.json();
+          console.log("User created in database:", data);
+          alert("User created successfully!");
+        } catch (error) {
+          console.error("Error creating user in the database:", error.message);
         }
+      };
+      createUser();
+      sendEmailVerification(user).then(() => {
+        alert("Verification email sent! Check your mailbox!");
+        navigate("/login");
       });
-  };
+    })
+    .catch((error) => {
+      console.error(error.message);
+      setIsSigningIn(false);
+      if (error.code === "auth/email-already-in-use") {
+        setEmailError("Email address taken. Try a different one.");
+      } else if (error.code === "auth/invalid-email") {
+        setEmailError("Invalid email address");
+      } else if (error.code === "auth/weak-password") {
+        setPasswordError("Password should at least be 6 characters");
+        setConfirmPasswordError("Password should at least be 6 characters");
+      } else {
+        setConfirmPasswordError(error.message);
+      }
+    });
+  }
   
-
   const handleSignInWithGoogle = async (e) => {
     e.preventDefault()
     if (!isSigningIn) {
       setIsSigningIn(true)
       const provider = new GoogleAuthProvider();
       signInWithPopup(auth, provider)
-      .then(result => {
-          console.log(result);
-          const user = result.user;
-          dispatch({type:"LOGIN", payload:user})
-          alert("Logged in successfully!")
-          navigate("/home")
+      .then(async result => {
+        try {
+          // get user email
+          const email = result.user.email;
+          // fetch user data from backend
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/getUser?email=${email}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          // if user is not found, create a new user first
+          if (response.status === 404) {
+            console.log("User not found, creating user..");
+            const user = result.user;
+            const firstName = user.displayName.split(" ")[0];
+            const lastName = user.displayName.split(" ")[1];
+            const newUser = {
+              email: user.email,
+              firstName: firstName,
+              lastName: lastName,
+              profileCompleted: false,
+            }
+            // create new user in backend
+            await fetch(`${process.env.REACT_APP_BACKEND_API}/api/createUser`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(newUser),
+            })
+            .then(async (response) => {
+              if (!response.ok) {
+                throw new Error("User not created");
+              }
+              console.log("User created successfully");
+              await dispatch({ type: "LOGIN", payload: user });
+              
+              console.log("Signed in as " + user.displayName);
+              alert("Complete your profile!");
+              
+              // Navigate after state update
+              setTimeout(() => {
+                navigate("/completeprofile");
+              }, 100);
+            }).catch((error) => {
+                console.error("Error:" + error);
+            });
+          }
+          // if user is found, navigate based on profile completion
+          else {
+            if (!response.ok) {
+              throw new Error("User not found");
+            }
+            const userData = await response.json();
+            console.log("User data:", userData);
+            // if profile is not completed, alert user and navigate to complete profile page
+            if (userData.profileCompleted === false) {
+              alert("Please complete your profile first!")
+              navigate("/completeprofile")
+              return;
+            }
+            // if profile is completed, dispatch user data to context and navigate to home page
+            const user = result.user;
+            console.log(user);
+            alert("Logged in successfully!");
+            dispatch({type:"LOGIN", payload:user})
+            navigate("/home")
+            return;
+          }
+        } catch (error) {
+          console.error("Error fetching user:", error.message);
+        }
       }).catch((error) => {
           console.error("Error:" + error);
       });

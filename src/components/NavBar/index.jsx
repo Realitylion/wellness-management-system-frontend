@@ -1,8 +1,10 @@
 import { Img } from "./..";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 export default function Header({ ...props }) {
+  const {dispatch} = React.useContext(AuthContext)
   const navigate = useNavigate();
 
     const navigateToHome = () => {
@@ -21,8 +23,8 @@ export default function Header({ ...props }) {
       navigate("/settings");
     }
 
-    const handleLogout = () => {
-      localStorage.removeItem("token");
+    const handleLogout = async () => {
+      await dispatch({ type: "LOGOUT" });
       navigate("/");
     }
 

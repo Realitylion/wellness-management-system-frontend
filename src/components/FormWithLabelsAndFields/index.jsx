@@ -1,6 +1,7 @@
 import { Button, Text, Input } from "./..";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 export default function CombinedForm({
   labeltext1 = "First Name",
@@ -30,15 +31,18 @@ export default function CombinedForm({
 
   const navigate = useNavigate();
 
+  const { currentUser } = React.useContext(AuthContext);
+
   React.useEffect(() => {
-    // Retrieve the item from local storage
-    const userDataString = localStorage.getItem("user");
+    if (!currentUser) {
+      navigate("/login");
+    }
+  }, [currentUser, navigate]);
 
-    // Parse the JSON string into an object
-    const userData = JSON.parse(userDataString);
-
-    // Access the email
-    const emailVal = userData.email;
+  React.useEffect(() => {
+    if (!currentUser) return;
+    const emailVal = currentUser.email;
+    
     console.log("Email:", emailVal);
     // Fetch user data from the backend
     const fetchUserData = async () => {
@@ -63,38 +67,40 @@ export default function CombinedForm({
         setLastName(userData.lastName);
         setPhoneNumber(userData.phoneNumber);
         setEmail(userData.email);
-        setDob(userData.dob);
+        setDob(userData.dob.slice(0, 10));
         setBloodGroup(userData.bloodGroup);
-        setHeight(userData.height);
-        setWeight(userData.weight);
-        setHealthIssues(userData.healthIssues);
+        setHeight(userData.height.$numberDecimal);
+        setWeight(userData.weight.$numberDecimal);
+        setHealthIssues(userData.healthIssuesOrAllergies);
         setPriorInjuries(userData.priorInjuries);
       } catch (error) {
         console.error("Error fetching user:", error.message); 
       }
     };
     fetchUserData();
-  }, [email]);
+  }, [currentUser, email]);
 
   // Function to handle form submission
   const handleFormSubmit = (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    console.log("Form submitted with data:", {
-      firstName: firstName,
-      lastName,
-      phoneNumber,
-      email,
-      dob,
-      bloodGroup,
-      height,
-      weight,
-      healthIssues,
-      priorInjuries,
-    });
 
     // update user in the backend
     const updateUser = async () => {
       try {
+        const body = JSON.stringify({
+          firstName,
+          lastName,
+          phoneNumber,
+          profileCompleted: true,
+          email,
+          dob,
+          bloodGroup,
+          height,
+          weight,
+          healthIssuesOrAllergies: healthIssues,
+          priorInjuries,
+        });
+        console.log("Body:", body);
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_API}/api/updateUser`,
           {
@@ -102,19 +108,7 @@ export default function CombinedForm({
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              firstName,
-              lastName,
-              phoneNumber,
-              profileCompleted: true,
-              email,
-              dob,
-              bloodGroup,
-              height,
-              weight,
-              healthIssues,
-              priorInjuries,
-            }),
+            body: body,
           }
         );
         if (!response.ok) {
@@ -204,11 +198,11 @@ export default function CombinedForm({
             {labeltext5}
           </Text>
           <Input
-            shape="square"
-            placeholder="Enter Your Date Of Birth"
+            type="date"
             className="self-stretch border-b border-coolgray-30 px-3.5"
             value={dob}
             onChange={(e) => setDob(e.target.value)}
+            placeholder="Enter Your Date Of Birth"
             required
           />
         </div>

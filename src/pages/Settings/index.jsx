@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet";
 import { Heading } from "../../components";
 import FormWithLabelsAndFields from "../../components/FormWithLabelsAndFields";
-import SuccessNotification from "../../components/SuccessNotification";
 import React from "react";
 import NavBar from "../../components/NavBar";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +15,12 @@ export default function SettingsPage() {
   };
 
   const handleDeleteUser = async () => {
+    // confirmation
+    const confirmDelete = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    if (!confirmDelete) {
+      return;
+    }
+
     const user = auth.currentUser;
 
     if (user) {
@@ -62,7 +67,6 @@ export default function SettingsPage() {
                 </div>
                 <FormWithLabelsAndFields className="w-[92%] md:w-full" />
               </div>
-              <SuccessNotification />
 
               {/* Buttons */}
               <div className="flex gap-4 mt-4">
