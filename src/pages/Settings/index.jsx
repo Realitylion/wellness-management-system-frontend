@@ -5,7 +5,7 @@ import React from "react";
 import NavBar from "../../components/NavBar";
 import { useNavigate } from "react-router-dom";
 import { getAuth, deleteUser } from "firebase/auth";
-import "./settingpage.css"; // Import the CSS file where you've defined the styles
+
 
 export default function SettingsPage() {
   const navigate = useNavigate();
