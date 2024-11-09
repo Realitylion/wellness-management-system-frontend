@@ -14,7 +14,7 @@ import EmailVerificationLink from "./pages/EmailVerificationLink";
 import ChangePassword from "./pages/ChangePassword";
 import CompleteProfile from "./pages/CompleteProfile";
 import Settings from "./pages/Settings";
-import MealPlannerMain from "./pages/MealPlannerMain";
+import MealPlannerMain from "./pages/MealPlannermain";
 import GenerateMealPlan from "./pages/GenerateMealPlan";
 import MealLog from "./pages/MealLog";
 
