@@ -1,13 +1,14 @@
 import { Helmet } from "react-helmet";
-import { Img, Heading } from "../..//components";
-import MealPlanGenerator from "../..//components/MealPlanGenerator";
-import React from "react";
+import { Img, Heading } from "../../components";
+import MealPlanGenerator from "../../components/MealPlanGenerator";
+import FunFactText from "../../components/FunFactText";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
-import { FaLightbulb } from "react-icons/fa"; // Importing icon library
 
 export default function MealPlannermainPage() {
     const navigate = useNavigate();
+    const [funFacts, setFunFacts] = useState([]);
 
     const navigateMealPlan = () => {
         navigate("/generatemealplan");
@@ -17,26 +18,13 @@ export default function MealPlannermainPage() {
         navigate("/meallog");
     }
 
-    // Inline styles for the fun fact box
-    const funFactBoxStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#f0f4f8',
-        border: '1px solid #e5e7eb',
-        borderRadius: '8px',
-        padding: '12px 16px',
-        fontSize: '14px',
-        color: '#4b5563',
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-        marginBottom: '8px',
-        transition: 'transform 0.2s ease-in-out',
-    };
-
-    const iconStyle = {
-        color: '#f59e0b', // Yellow color for the lightbulb icon
-        marginRight: '8px',
-        fontSize: '20px',
-    };
+    // Fetch fun facts from the backend when the component mounts
+    useEffect(() => {
+        fetch("http://localhost:4000/api/getFunFact")
+            .then(response => response.json())
+            .then(data => setFunFacts(data))
+            .catch(error => console.error("Error fetching fun facts:", error));
+    }, []);
 
     return (
         <>
@@ -56,7 +44,7 @@ export default function MealPlannermainPage() {
                                     <MealPlanGenerator
                                         buttonClickHandler={navigateCalories}
                                         titleText="Track your Calories"
-                                        descriptionText="Tracking calories helps you make mindful choices and supports your health goals."
+                                        descriptionText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                                         buttonText="Track Calories"
                                     />
                                 </div>
@@ -86,26 +74,14 @@ export default function MealPlannermainPage() {
                         </div>
                         <div className="max-h-[700px] w-1/5 md:w-full overflow-auto">
                             <div className="rounded-[10px] h-auto bg-default-white px-5 py-6 sm:py-5">
-                                <Heading
-                                    size="4"
-                                    as="h2"
-                                    className="text-lg font-semibold text-gray-800 mb-4"
-                                >
-                                    Fun Facts
-                                </Heading>
                                 <div className="flex flex-col gap-4">
-                                    <div style={funFactBoxStyle}>
-                                        <FaLightbulb style={iconStyle} />
-                                        <p>Small daily habits like hydration and short walks boost your overall wellness.</p>
-                                    </div>
-                                    <div style={funFactBoxStyle}>
-                                        <FaLightbulb style={iconStyle} />
-                                        <p>Taking breaks during work can improve focus and productivity.</p>
-                                    </div>
-                                    <div style={funFactBoxStyle}>
-                                        <FaLightbulb style={iconStyle} />
-                                        <p>Sunlight exposure in the morning enhances mood and energy levels.</p>
-                                    </div>
+                                    {funFacts.length > 0 ? (
+                                        funFacts.map((fact, index) => (
+                                            <FunFactText key={index} funFactText={fact.fact} className="gap-2" />
+                                        ))
+                                    ) : (
+                                        <p>Loading fun facts...</p>
+                                    )}
                                 </div>
                             </div>
                         </div>
