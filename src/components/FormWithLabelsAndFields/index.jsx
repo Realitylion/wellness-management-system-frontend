@@ -198,6 +198,80 @@ export default function CombinedForm({
             required
           />
         </div>
+
+        {/* Blood Group */}
+        <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
+          <Text as="p" className="text-[14px] font-normal text-coolgray-90">
+            {labeltext6}
+          </Text>
+          <Input
+            shape="square"
+            placeholder="Enter Your Blood Group"
+            className="self-stretch border-b border-coolgray-30 px-3.5 input-style"
+            value={bloodGroup}
+            onChange={(e) => setBloodGroup(e.target.value)}
+          />
+        </div>
+
+        {/* Height */}
+        <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
+          <Text as="p" className="text-[14px] font-normal text-coolgray-90">
+            {labeltext7}
+          </Text>
+          <Input
+            shape="square"
+            placeholder="Enter Your Height"
+            className="self-stretch border-b border-coolgray-30 px-3.5 input-style"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* Weight */}
+        <div className="flex flex-col items-start gap-2 w-full sm:w-1/2">
+          <Text as="p" className="text-[14px] font-normal text-coolgray-90">
+            {labeltext10}
+          </Text>
+          <Input
+            shape="square"
+            placeholder="Enter Your Weight"
+            className="self-stretch border-b border-coolgray-30 px-3.5 input-style"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* Health Issues */}
+        <div className="flex flex-col items-start gap-2 w-full">
+          <Text as="p" className="text-[14px] font-normal text-coolgray-90">
+            {labeltext8}
+          </Text>
+          <Input
+            shape="square"
+            placeholder="Type NA if none"
+            className="self-stretch border-b border-coolgray-30 px-3.5 input-style"
+            value={healthIssues}
+            onChange={(e) => setHealthIssues(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* Prior Injuries */}
+        <div className="flex flex-col items-start gap-2 w-full">
+          <Text as="p" className="text-[14px] font-normal text-coolgray-90">
+            {labeltext9}
+          </Text>
+          <Input
+            shape="square"
+            className="self-stretch border-b border-coolgray-30 px-3.5 input-style"
+            value={priorInjuries}
+            placeholder="Type NA if none"
+            onChange={(e) => setPriorInjuries(e.target.value)}
+            required
+          />
+        </div>
       </div>
 
       <Button
