@@ -6,6 +6,7 @@ import NavBar from "../../components/NavBar";
 import { useNavigate } from "react-router-dom";
 import { getAuth, deleteUser } from "firebase/auth";
 
+
 export default function SettingsPage() {
   const navigate = useNavigate();
   const auth = getAuth();
@@ -15,7 +16,6 @@ export default function SettingsPage() {
   };
 
   const handleDeleteUser = async () => {
-    // confirmation
     const confirmDelete = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
     if (!confirmDelete) {
       return;
@@ -60,12 +60,12 @@ export default function SettingsPage() {
             </div>
             <div className="flex flex-1 flex-col items-start gap-4 self-center px-6 md:self-stretch md:px-5">
               <div className="flex w-[92%] flex-col justify-center gap-[22px] border border-solid border-coolgray-20 bg-default-white px-4 py-3 md:w-full">
-                <div className="flex ">
+                <div className="flex">
                   <Heading size="heading_6" as="h5" className="text-[18px] font-bold text-coolgray-90">
-                  User Details
+                    User Details
                   </Heading>
                 </div>
-                <FormWithLabelsAndFields className="w-[92%] md:w-full" />
+                <FormWithLabelsAndFields className="w-[92%] md:w-full input-text" />
               </div>
 
               {/* Buttons */}
