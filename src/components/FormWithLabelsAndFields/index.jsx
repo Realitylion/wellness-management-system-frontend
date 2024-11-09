@@ -214,7 +214,7 @@ export default function CombinedForm({
           </Text>
           <Input
             shape="square"
-            placeholder="Enter Your Blood Group"
+            placeholder="Enter Your Blood Group (A+, A-, B+, B-, AB+, AB-, O+ & O-)"
             className="self-stretch border-b border-coolgray-30 px-3.5"
             value={bloodGroup}
             onChange={(e) => setBloodGroup(e.target.value)}
@@ -228,7 +228,7 @@ export default function CombinedForm({
           </Text>
           <Input
             shape="square"
-            placeholder="Enter Your Height"
+            placeholder="Enter Your Height (in cms)"
             className="self-stretch border-b border-coolgray-30 px-3.5"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
@@ -243,7 +243,7 @@ export default function CombinedForm({
           </Text>
           <Input
             shape="square"
-            placeholder="Enter Your Weight"
+            placeholder="Enter Your Weight (in kgs)"
             className="self-stretch border-b border-coolgray-30 px-3.5"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
