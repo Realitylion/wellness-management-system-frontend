@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Heading } from "../../components";
 import NavBar from "../../components/NavBar";
+import { AuthContext } from "../../context/authContext";
 
 export default function WellnessSessionPage() {
     const [sessionType, setSessionType] = React.useState("");
@@ -9,14 +10,36 @@ export default function WellnessSessionPage() {
     // audio : { title: "Audio 1", src: "audio1.mp3" }
     const [video, setVideo] = React.useState([]);
     // video : { title: "Video 1", src: "video1.mp4" }
+    const { currentUser } = React.useContext(AuthContext);
 
+    
     React.useEffect(() => {
-        if (sessionType !== "")
-            console.log("Session Type: ", sessionType);
+        // Fetch media data based on the session type
+        const fetchMediaBySessionType = async () => {
+            if (sessionType) {
+                try {
+                    const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/getMediaByWellnessType?sessionType=${sessionType}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch media');
+                    }
 
-        // fetch media based on session type
-        
+                    const media = await response.json();
 
+                    // Filter and set media based on type
+                    const audioMedia = media.filter(item => item.mediaType === 'Audio');
+                    const videoMedia = media.filter(item => item.mediaType === 'Video');
+                    
+                    setAudio(audioMedia);
+                    setVideo(videoMedia);
+
+                } catch (error) {
+                    console.error('Error fetching media:', error);
+                }
+            }
+        };
+
+        fetchMediaBySessionType();
     }, [sessionType]);
 
     const [isRunning, setIsRunning] = React.useState(false);
@@ -56,19 +79,57 @@ export default function WellnessSessionPage() {
     };
 
     // Stop button function
-    const handleStop = () => {
+    const handleStop = async () => {
         setIsRunning(false);
         setIsPaused(false);
-        if (elapsedTime < 120) {
-            console.log("Session time too less, not recorded!");
-            setNotSavedMessage("Session time too less, not recorded!");
+    
+        // Check if session time is sufficient (in seconds)
+        if (elapsedTime < 12) {
+            console.log("Session time too short, not recorded!");
+            setNotSavedMessage("Session time too short, not recorded!");
             return;
         }
-        setSavedTime(elapsedTime); // Save the final time
-        // Save the session time to the database
-        
-        console.log("Session time recorded: ", formatTime(elapsedTime));
+    
+        // Convert elapsed time to minutes
+        const sessionDurationInMinutes = Math.floor(elapsedTime / 60);
+        setSavedTime(sessionDurationInMinutes); // Save the final time in minutes
+        console.log("Session time recorded (in minutes): ", sessionDurationInMinutes);
+    
+        try {
+            // Define the session data to be sent to the server
+            const sessionData = {
+                sessionType: sessionType, // Or get this dynamically based on your session
+                duration: sessionDurationInMinutes,
+                sessionDate: new Date().toISOString(),
+                email: currentUser.email // Replace with actual user's email
+            };
+            console.log(sessionData)
+            // Make an API request to save the session data
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/addWellnessSession`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(sessionData) // Correct variable name here
+            });
+    
+            // Handle the response from the server
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Session saved successfully:", result.message);
+                setNotSavedMessage(""); // Clear any previous "not saved" message
+            } else {
+                const errorData = await response.json();
+                console.log("Failed to save session:", errorData.error);
+                setNotSavedMessage("Failed to save session");
+            }
+        } catch (error) {
+            console.error("Error saving session:", error);
+            setNotSavedMessage("Error saving session");
+        }
     };
+    
+    
 
     // Format time for display (HH:MM:SS)
     const formatTime = (timeInSeconds) => {
@@ -141,23 +202,24 @@ export default function WellnessSessionPage() {
                             )}
                             {/* render buttons dynamically */}
                             {audio.map((audio) => (
-                                <button
-                                    key={audio.title}
-                                    className="bg-gray-100 p-2 rounded-lg shadow-md"
-                                    onClick={() => console.log("Audio: ", audio.title)}
-                                >
-                                    {audio.title}
-                                </button>
-                            ))}
-                            {video.map((video) => (
-                                <button
-                                    key={video.title}
-                                    className="bg-gray-100 p-2 rounded-lg shadow-md"
-                                    onClick={() => console.log("Video: ", video.title)}
-                                >
-                                    {video.title}
-                                </button>
-                            ))}
+                <button
+                    key={audio.title}
+                    className="bg-gray-100 p-2 rounded-lg shadow-md"
+                    onClick={() => window.open(audio.url, '_blank')}
+                >
+                    {audio.title}
+                </button>
+            ))}
+            {video.map((video) => (
+                <button
+                    key={video.title}
+                    className="bg-gray-100 p-2 rounded-lg shadow-md"
+                    onClick={() => window.open(video.url, '_blank')}
+                >
+                    {video.title}
+                </button>
+            ))}
+
                         </div>
                     </section>
 
