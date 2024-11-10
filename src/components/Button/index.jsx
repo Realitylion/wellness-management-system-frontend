@@ -19,7 +19,7 @@ const variants = {
 const sizes = {
   md: "h-[36px] pl-2.5 pr-[30px] text-[13px]",
   "4xl": "h-[68px] px-[34px] text-[20px]",
-  sm: "h-[32px] pl-3 pr-[34px] text-[16px]",
+  sm: "h-[32px] px-3 text-[16px]",
   xs: "h-[28px] px-2.5 text-[15px]",
   lg: "h-[38px] px-5 text-[16px]",
   xl: "h-[48px] px-3",
