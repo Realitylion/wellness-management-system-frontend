@@ -20,7 +20,7 @@ export default function MealPlannermainPage() {
 
     // Fetch fun facts from the backend when the component mounts
     useEffect(() => {
-        fetch("http://localhost:4000/api/getFunFact")
+        fetch(`${process.env.REACT_APP_BACKEND_API}/api/getFunFact`)
             .then((response) => response.json())
             .then((data) => setFunFacts(data))
             .catch((error) => console.error("Error fetching fun facts:", error));

@@ -37,6 +37,10 @@ const nutrients = [
 
 export default function GenerateMealPlanPage() {
   const [selectedNutrientOptions, setSelectedNutrientOptions] = React.useState([]);
+  const [mealPlan,setMealPlan] = React.useState("");
+  const handleGenerateMealPlanClick = () => {
+    generateMealPlan();
+  }
 
   const handleButtonClick = (e, nutrient) => {
     e.preventDefault();
@@ -52,6 +56,33 @@ export default function GenerateMealPlanPage() {
       }
     });
   };
+
+  const generateMealPlan = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/generateMealPlan`, 
+      {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({
+          mealType: selectedNutrientOptions[0],
+          cuisine: selectedNutrientOptions[1],
+          nutrients: selectedNutrientOptions[2],
+          goal: selectedNutrientOptions[3],
+          ingredients: selectedNutrientOptions[4]
+        })
+      });
+      const data = await response.json();
+      setMealPlan(data.mealPlan || "No meal plan generated.");
+      console.log(mealPlan);
+    } catch (error) {
+      console.error("Error generating meal plan:", error);
+    }
+  };
+
+  
+
 
   return (
     <>
@@ -161,6 +192,7 @@ export default function GenerateMealPlanPage() {
                       color="primary_60"
                       size="lg"
                       className="rounded-[10px] border border-solid border-coolgray-20 px-5 font-montserrat font-thin tracking-[0.50px] hover:bg-light_blue-a700"
+                      onClick={() => handleGenerateMealPlanClick()}
                     >
                       Generate Meal Plan
                     </Button>
@@ -181,7 +213,9 @@ export default function GenerateMealPlanPage() {
                   className="resize-none w-full bg-transparent focus:outline-none border-none text-coolgray-90 text-[16px] font-montserrat"
                   placeholder="Your meal plan will be displayed here..."
                   readOnly
-                ></textarea>
+                  value={mealPlan}
+                >
+                </textarea>
               </div>
             </div>
           </div>
