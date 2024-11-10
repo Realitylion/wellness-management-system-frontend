@@ -74,7 +74,8 @@ export default function GenerateMealPlanPage() {
         })
       });
       const data = await response.json();
-      setMealPlan(data.recipe || "No meal plan generated.");
+      setMealPlan(data.mealPlan || "No meal plan generated.");
+      console.log(mealPlan);
     } catch (error) {
       console.error("Error generating meal plan:", error);
     }
@@ -212,8 +213,8 @@ export default function GenerateMealPlanPage() {
                   className="resize-none w-full bg-transparent focus:outline-none border-none text-coolgray-90 text-[16px] font-montserrat"
                   placeholder="Your meal plan will be displayed here..."
                   readOnly
+                  value={mealPlan}
                 >
-                  {mealPlan}
                 </textarea>
               </div>
             </div>
