@@ -19,14 +19,6 @@ export default function PagenotFoundPagecontent() {
               Page Not Found
             </Heading>
           </div>
-          {/* <Button
-            size="3x1"
-            variant="outline"
-            shape="square"
-            className="mt-14 min-w-[172px] !border-2 px-[30px] font-medium tracking-[0.50px] sm:px-5"
-          >
-            Home Page
-          </Button> */}
         </div>
       </div>
     </div>
